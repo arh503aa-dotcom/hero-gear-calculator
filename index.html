@@ -202,21 +202,19 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .bottom.min .hidebar svg{transform:rotate(180deg)}
 .scroll>.grp{max-width:560px;width:100%;margin-inline:auto;flex:none;border-radius:16px;padding:12px}
 .stats h3{font-size:17px;margin:0 0 8px}
-.stats .sec{display:flex;align-items:center;gap:8px;margin:10px 0 2px;padding:7px 10px;border-radius:9px;background:var(--field);
-  border-inline-start:5px solid var(--sc);font-size:14.5px;font-weight:700;color:var(--ink)}
-.stats .sec.exp{--sc:#2563EB}.stats .sec.conq{--sc:#C98E2B}
-.st-row{display:grid;grid-template-columns:minmax(0,1fr) auto 74px;align-items:center;gap:8px;padding:8px 2px;border-top:1px dashed var(--line);font-size:15px}
-.st-row.head{border-top:0;padding:6px 2px 2px;font-size:12px;color:var(--muted);font-weight:700}
-.st-row.head+.st-row{border-top:0}
+.st-row{display:grid;grid-template-columns:minmax(0,1fr) 66px 70px 66px;align-items:center;column-gap:5px;padding:9px 6px;border-top:1px dashed var(--line);font-size:15px}
+.st-row>*{min-width:0}
 .st-row .nm{text-align:start;font-weight:500;color:var(--ink)}
-.st-row .v{display:flex;align-items:center;justify-content:flex-end;gap:6px;white-space:nowrap;font-weight:700;font-size:15.5px}
-.st-row .v s{text-decoration:none;font-weight:500;color:var(--muted)}
-.st-row .v .ar{color:var(--muted);font-weight:400;font-size:14px}
-.st-row .v .ar::before{content:"←"}
-[dir="ltr"] .st-row .v .ar::before{content:"→"}
-.st-row .g{text-align:center;font-size:13.5px;font-weight:700;border-radius:999px;padding:3px 6px;background:color-mix(in srgb,var(--teal) 20%,transparent);color:var(--teal)}
+.st-row .c{text-align:center;white-space:nowrap;font-size:14.5px}
+.st-row .now{color:var(--muted);font-weight:500}
+.st-row .aft{color:var(--ink);font-weight:700}
+.st-row .g{justify-self:center;font-size:13px;font-weight:700;border-radius:999px;padding:3px 7px;background:color-mix(in srgb,var(--teal) 20%,transparent);color:var(--teal)}
 .st-row .g.none{background:transparent;color:var(--muted);font-weight:500}
-.st-row.head .v,.st-row.head .g{font-size:12px;font-weight:700;color:var(--muted);background:transparent;padding:0}
+.st-row.head{border-top:0;margin-top:10px;border-radius:9px;background:var(--field);border-inline-start:5px solid var(--sc);padding:8px 6px;padding-inline-start:8px}
+.st-row.head.exp{--sc:#2563EB}.st-row.head.conq{--sc:#C98E2B}
+.st-row.head .nm{font-size:13.5px;font-weight:700;white-space:nowrap}
+.st-row.head .c{font-family:inherit;font-size:12px;font-weight:700;color:var(--muted)}
+.st-row.head+.st-row{border-top:0}
 .credit{margin:2px 0 4px;text-align:center;font-size:12.5px;color:var(--muted);flex:none}
 .credit b{color:var(--ink);font-weight:700}
 .more svg{flex:none}
@@ -417,7 +415,7 @@ var I18N={
   st:{saved:"Saved to your account ✓",saving:"Saving…",local:"Saved on this device"},
   barHide:"Hide the bar",barShow:"Show the bar",credit:"This site was created by",
   stats:function(t){return this.the[t]+" hero gear stats";},exp:"Expedition",conq:"Conquest",
-  stNow:"Current",stAfter:"After upgrade",stGain:"Increase",langBtn:"ع",langLabel:"العربية"}
+  stNow:"Current",stAfter:"After",stGain:"Increase",langBtn:"ع",langLabel:"العربية"}
 };
 var T=I18N.ar;
 
@@ -502,17 +500,18 @@ function heroStats(t){
 function pct(v){return (Math.round(v*100)/100)+"%";}
 function statsHTML(t){
   var s=heroStats(t);
-  function num(v,tag){return '<'+tag+' class="num" dir="ltr">'+pct(v)+'</'+tag+'>';}
   function row(k){
     var a=s.cur[k],b=s.tgt[k],d=Math.round((b-a)*100)/100;
     return '<div class="st-row"><span class="nm">'+bonusName(k,t)+'</span>'+
-      '<span class="v">'+(d?num(a,"s")+'<i class="ar" aria-hidden="true"></i>':'')+num(b,"b")+'</span>'+
-      '<b class="g num'+(d?'':' none')+'" dir="ltr">'+(d?'+'+pct(d):'—')+'</b></div>';
+      '<span class="c now num" dir="ltr">'+pct(a)+'</span>'+
+      '<span class="c aft num" dir="ltr">'+pct(b)+'</span>'+
+      '<b class="c g num'+(d?'':' none')+'" dir="ltr">'+(d?'+'+pct(d):'—')+'</b></div>';
   }
-  var head='<div class="st-row head"><span></span><span class="v">'+T.stNow+'<i class="ar" aria-hidden="true"></i>'+T.stAfter+'</span><span class="g">'+T.stGain+'</span></div>';
+  function head(cls,title){return '<div class="st-row head '+cls+'"><span class="nm">'+title+'</span>'+
+    '<span class="c">'+T.stNow+'</span><span class="c">'+T.stAfter+'</span><span class="c">'+T.stGain+'</span></div>';}
   return '<div class="grp stats"><h3>'+T.stats(t)+'</h3>'+
-    '<div class="sec exp">'+T.exp+'</div>'+head+["leth","hp","atk","def"].map(row).join("")+
-    '<div class="sec conq">'+T.conq+'</div>'+head+["Hh","Ha","Hd"].map(row).join("")+'</div>';
+    head("exp",T.exp)+["leth","hp","atk","def"].map(row).join("")+
+    head("conq",T.conq)+["Hh","Ha","Hd"].map(row).join("")+'</div>';
 }
 function allStatsHTML(){return TROOPS.map(statsHTML).join("");}
 function calc(g){
