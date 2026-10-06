@@ -200,6 +200,18 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .hidebar svg{width:16px;height:16px;transition:transform .2s}
 .bottom.min .row1,.bottom.min .tot{display:none}
 .bottom.min .hidebar svg{transform:rotate(180deg)}
+.scroll>.grp{max-width:560px;width:100%;margin-inline:auto;flex:none;border-radius:16px;padding:12px}
+.stats h3{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.stats h3 small{font-size:12.5px;font-weight:500;color:var(--muted)}
+.stats .sec{font-size:12.5px;color:var(--muted);margin:8px 0 2px;font-weight:700}
+.st-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px dashed var(--line);font-size:14.5px}
+.stats .sec+.st-row{border-top:0}
+.st-row .nm{flex:1;min-width:0;text-align:start}
+.st-row .v{white-space:nowrap;font-weight:700}
+.st-row .v s{text-decoration:none;font-weight:500;color:var(--muted)}
+.st-row .g{flex:none;min-width:64px;text-align:center;font-size:12.5px;font-weight:700;border-radius:999px;padding:2px 8px;background:color-mix(in srgb,var(--teal) 18%,transparent);color:var(--teal)}
+.st-row .g.none{background:transparent;color:var(--muted);font-weight:500}
+.stats .hint{margin:8px 0 0}
 .credit{margin:2px 0 4px;text-align:center;font-size:12.5px;color:var(--muted);flex:none}
 .credit b{color:var(--ink);font-weight:700}
 .more svg{flex:none}
@@ -363,7 +375,9 @@ var I18N={
   none:"لا توجد تطويرات محددة لهذا البطل.",empty:"ما حددت أي تطوير بعد. ارفع «الهدف» في أي قطعة وتظهر التكلفة هنا.",
   unlock:"يفتح لك:",reset:"تصفير كل التطويرات",sure:"اضغط مرة ثانية للتأكيد",
   st:{saved:"محفوظ في حسابك ✓",saving:"جارٍ الحفظ…",local:"محفوظ على هذا الجهاز"},
-  barHide:"إخفاء الشريط",barShow:"إظهار الشريط",credit:"تم إنشاء هذا الموقع من قبل",langBtn:"EN",langLabel:"English"},
+  barHide:"إخفاء الشريط",barShow:"إظهار الشريط",credit:"تم إنشاء هذا الموقع من قبل",
+  stats:"إحصائيات العتاد",exp:"الحملة الاستكشافية",conq:"الغزو",noChange:"بدون تغيير",
+  statsHint:"النسبة = نسبة التحسين × (1 + الصقل × 10%)، محسوبة لعتاد ذهبي أو أحمر.",langBtn:"EN",langLabel:"English"},
  en:{dir:"ltr",title:"Hero Gear Calculator",
   bag:"Backpack",bagHint:"Enter what you own in the game. The calculator compares it with what you need and shows what is missing.",
   x10:"10 Enhancement XP Part",x100:"100 Enhancement XP Part",
@@ -396,7 +410,9 @@ var I18N={
   none:"No upgrades set for this hero.",empty:"No upgrades set yet. Raise a Target on any piece and its cost shows here.",
   unlock:"Unlocks:",reset:"Reset all upgrades",sure:"Tap again to confirm",
   st:{saved:"Saved to your account ✓",saving:"Saving…",local:"Saved on this device"},
-  barHide:"Hide the bar",barShow:"Show the bar",credit:"This site was created by",langBtn:"ع",langLabel:"العربية"}
+  barHide:"Hide the bar",barShow:"Show the bar",credit:"This site was created by",
+  stats:"Gear stats",exp:"Expedition",conq:"Conquest",noChange:"No change",
+  statsHint:"Stat = enhancement stat × (1 + Mastery × 10%), for Mythic or Red gear.",langBtn:"ع",langLabel:"العربية"}
 };
 var T=I18N.ar;
 
@@ -463,6 +479,34 @@ function reach(g,hv){
     xp-=c;e=L;
   }
   return {e:e,m:m,stop:stop};
+}
+/* troop stat of one piece. Mythic 0-100: 15% -> 50%; Red 101-200: 50% -> 100%; each Mastery level adds 10% of that.
+   Checked against in-game gear details: +59 M12 = 174.90%, +79 M13 = 205.85%, +100 M15 = 250%, +100 M18 = 280%. */
+function baseStat(L){return L<=100?15+0.35*L:50+0.5*(L-100);}
+function pieceStat(L,M){return baseStat(L)*(1+0.1*M);}
+var STAT_KEYS=["leth","hp","atk","def","Hh","Ha","Hd"];
+function heroStats(t){
+  var c={},n={};STAT_KEYS.forEach(function(k){c[k]=0;n[k]=0;});
+  SLOTS.forEach(function(p){
+    var g=S.gear[t][p],k=(p==="helm"||p==="boots")?"leth":"hp",B=bonuses(p);
+    c[k]+=pieceStat(g.ec,g.mc);n[k]+=pieceStat(g.et,g.mt);
+    [120,140,160,180,200].forEach(function(L,i){if(g.ec>=L)c[B[i][0]]+=B[i][1];if(g.et>=L)n[B[i][0]]+=B[i][1];});
+  });
+  return {cur:c,tgt:n};
+}
+function pct(v){return (Math.round(v*100)/100)+"%";}
+function statsHTML(t){
+  var s=heroStats(t);
+  function row(k){
+    var a=s.cur[k],b=s.tgt[k],d=Math.round((b-a)*100)/100;
+    return '<div class="st-row"><span class="nm">'+bonusName(k,t)+'</span>'+
+      '<span class="v num" dir="ltr">'+(d?'<s>'+pct(a)+' → </s>':'')+pct(b)+'</span>'+
+      '<b class="g num'+(d?'':' none')+'" dir="ltr">'+(d?'+'+pct(d):'—')+'</b></div>';
+  }
+  return '<div class="grp stats"><h3>'+T.stats+' <small>'+T.hero(t)+'</small></h3>'+
+    '<div class="sec">'+T.exp+'</div>'+["leth","hp","atk","def"].map(row).join("")+
+    '<div class="sec">'+T.conq+'</div>'+["Hh","Ha","Hd"].map(row).join("")+
+    '<p class="hint">'+T.statsHint+'</p></div>';
 }
 function calc(g){
   var r={xp:CUM[g.et]-CUM[g.ec],ham:0,myth:0,mith:0,req:0};
@@ -631,7 +675,7 @@ function build(){
   document.documentElement.lang=S.lang;document.documentElement.dir=T.dir;document.title=T.title;
   var y=scroll.scrollTop;
   tabs.innerHTML=TROOPS.map(function(t){return '<button role="tab" data-t="'+t+'">'+T.troops[t]+'</button>';}).join("");
-  scroll.innerHTML=SLOTS.map(cardHTML).join("")+creditHTML();
+  scroll.innerHTML=SLOTS.map(cardHTML).join("")+'<div id="mainstats" style="display:contents"></div>'+creditHTML();
   scroll.scrollTop=y;
   ["scope","scope2","scope3"].forEach(function(id){$(id).innerHTML=scopeHTML();});
   $("bag").innerHTML=IC_BAG+"<span>"+T.bag+"</span>";$("bg-title").textContent=T.bag;
@@ -678,6 +722,7 @@ function render(){
     if(c.req&&g.mt<c.req){w.hidden=false;w.dataset.req=c.req;w.textContent=T.warn(g.et,c.req);}
     else w.hidden=true;
   });
+  $("mainstats").innerHTML=statsHTML(S.troop);
   var sum=sumFor(S.scope);
   var hv=have(),bs=bagSet();
   [].forEach.call(tot.children,function(d){var r=d.dataset.r,sm=d.querySelector("small"),lack=sum[r]-hv[r];
@@ -765,6 +810,7 @@ function renderSheet(){
       (o.un.length?'<div class="unl"><small>'+T.unlock+'</small>'+o.un.map(function(u){
         return '<div><span class="st">'+u.name+'</span><b class="num" dir="ltr">+'+u.val+'%</b></div>';}).join("")+'</div>':'')+'</div>';
   }).join(""):'<div class="empty">'+(all?T.empty:T.none)+'</div>')+'</div>';
+  TROOPS.forEach(function(t){if(all||S.scope===t)h+=statsHTML(t);});
   h+='<div class="grp bknote"><p>'+T.bkNote+'</p><button type="button" class="btn" id="tobk">'+IC_BK+'<span>'+T.bk+'</span></button></div>';
   h+=creditHTML();
   $("sh-body").innerHTML=h;alignLabels();
