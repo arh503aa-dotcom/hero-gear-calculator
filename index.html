@@ -190,7 +190,7 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .totbtn{display:flex;align-items:center;gap:6px;width:100%;text-align:inherit}
 .tot{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;min-width:0}
 .tot div{display:flex;flex-direction:column;align-items:center;line-height:1.1;min-width:0}
-.tot b{font-size:16px;display:flex;align-items:center;gap:3px}
+.tot b{font-size:16px;display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.05}
 .tot small{font-size:11px;opacity:.75;white-space:nowrap}
 .more{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:42px;border-radius:11px;background:var(--cta);color:var(--cta-ink);font-size:16px;font-weight:700}
 .more:active{filter:brightness(.9)}
@@ -246,7 +246,7 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .fld{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px dashed var(--line)}
 .fld:first-of-type{border-top:0}
 .fld label{flex:1;font-size:14.5px;font-weight:500;display:flex;align-items:center;gap:6px;min-width:0}
-.fld label span,.more span,.bknote .btn span,.cost div>span,.tot b>span{display:inline-block;line-height:1.2}
+.fld label span,.more span,.bknote .btn span,.cost div>span{display:inline-block;line-height:1.2}
 .fld input,.bk input{width:118px;height:42px;border-radius:10px;border:1.5px solid var(--line);background:var(--field);color:var(--ink);
   font:700 18px "Changa","Tajawal",Tahoma,sans-serif;text-align:center;padding:0 8px;direction:ltr}
 .fld input:focus,.bk input:focus{outline:none;border-color:var(--teal)}
@@ -916,7 +916,7 @@ function saveShot(){
 }
 var mctx=document.createElement("canvas").getContext("2d");
 function alignLabels(){
-  [].forEach.call(document.querySelectorAll(".ibtn.txt span,.wide-btn span,.menu button span,.fld label span,.more span,.bknote .btn span,.cost div>span,.tot b>span"),function(sp){
+  [].forEach.call(document.querySelectorAll(".ibtn.txt span,.wide-btn span,.menu button span,.fld label span,.more span,.bknote .btn span,.cost div>span"),function(sp){
     sp.style.transform="";
     var r=sp.getBoundingClientRect(),ic=sp.parentElement.querySelector("svg,.rt"),host=(ic||sp.parentElement).getBoundingClientRect();
     if(!r.height||!host.height)return;
