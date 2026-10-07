@@ -226,7 +226,7 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 
 /* ---------- sections + troop training ---------- */
 .sect{flex:none;background:var(--bar);color:var(--bar-ink);padding:6px 10px 0;display:flex;gap:6px;align-items:center}
-.sect .seg button{height:32px;font-size:14px}
+.sect .seg button{height:32px;font-size:14px;padding:0 4px}[dir="ltr"] .sect .seg button{font-size:12px}
 .sect .ibtn{height:38px}
 #trsheet{z-index:4}
 #trsheet .sect{padding-bottom:6px}
@@ -446,7 +446,7 @@ var I18N={
   st:{saved:"محفوظ في حسابك ✓",saving:"جارٍ الحفظ…",local:"محفوظ على هذا الجهاز"},
   barHide:"إخفاء الشريط",barShow:"إظهار الشريط",credit:"تم إنشاء هذا الموقع من قبل",
   stats:function(t){return "إحصائيات عتاد "+this.hero(t);},exp:"الحملة الاستكشافية",conq:"الغزو",
-  stNow:"الحالي",stAfter:"بعد التطوير",stGain:"الزيادة",secGear:"عتاد الأبطال",secTroops:"تدريب الجنود",
+  stNow:"الحالي",stAfter:"بعد التطوير",stGain:"الزيادة",secGear:"عتاد الأبطال",secTroops:"حاسبة تدريب الجنود",
   tr:{mode:"الوضع",train:"تدريب",promo:"تعزيز",type:"نوع الجنود",tier:"المستوى",from:"من مستوى",to:"إلى مستوى",
    promoHint:"اللعبة تعزز الجنود دائماً إلى أعلى مستوى مفتوح لديك.",
    by:"طريقة الحساب",byN:"عدد الجنود",byT:"التسريع",n:"عدد الجنود",spNote:"مجموع «تسريع تدريب الجنود» و«تسريع عام» اللذين تملكهما.",spT:"تسريع تدريب الجنود",spG:"تسريع عام",d:"أيام",h:"ساعات",m:"دقائق",
@@ -494,7 +494,7 @@ var I18N={
   st:{saved:"Saved to your account ✓",saving:"Saving…",local:"Saved on this device"},
   barHide:"Hide the bar",barShow:"Show the bar",credit:"This site was created by",
   stats:function(t){return this.the[t]+" hero gear stats";},exp:"Expedition",conq:"Conquest",
-  stNow:"Current",stAfter:"After",stGain:"Increase",secGear:"Hero Gear",secTroops:"Troop Training",
+  stNow:"Current",stAfter:"After",stGain:"Increase",secGear:"Hero Gear",secTroops:"Troop Training Calculator",
   tr:{mode:"Mode",train:"Train",promo:"Promotion",type:"Soldier type",tier:"Tier",from:"From tier",to:"To tier",
    promoHint:"The game always promotes soldiers to your highest unlocked tier.",
    by:"Calculate by",byN:"Soldier count",byT:"Speedups",n:"Soldier count",spNote:"Total of the Troop Training Speedups and General Speedups you own.",spT:"Soldier Training Speedup",spG:"General Speedup",d:"Days",h:"Hours",m:"Minutes",
