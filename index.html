@@ -448,7 +448,7 @@ var I18N={
    buffs:"البوفات",buffHint:"النسبة اللي في اللعبة فيها البوفات المفعّلة عندك الآن. شغّل هنا فقط البوف اللي ما فعّلته بعد.",
    pos:"المنصب",none:"بدون",cm:"رئيس الوزراء",na:"مستشار نبيل",hk:"علاوة الملك الأعلى",hkSub:"ترفع قيمة المنصب",
    mob:"التعبئة",kvk:"علاوة مملكة القوة",total:"إجمالي السرعة",
-   out:"النتيجة",time:"الوقت",orig:"الأصلي",troops:"عدد الجنود اللي تقدر عليهم",gems:"الإنهاء الفوري بالجواهر",
+   out:"النتيجة",time:"وقت التدريب",orig:"بدون أي سرعة",used:"الوقت المستخدم من تسريعاتك",left:"يتبقى من تسريعاتك",troops:"عدد الجنود اللي تقدر عليهم",gems:"الإنهاء الفوري بالجواهر",
    bread:"خبز",wood:"خشب",stone:"حجر",iron:"حديد",own:"مواردي (اختياري)",ownHint:"اكتب اللي عندك، ويطلع لك الناقص.",
    empty:"اكتب عدد الجنود أو التسريعات عشان تطلع النتيجة.",src:"كل الأرقام مأخوذة من اللعبة مباشرة ومتأكد منها على حسابين."},
   langBtn:"EN",langLabel:"English"},
@@ -496,7 +496,7 @@ var I18N={
    buffs:"Buffs",buffHint:"The speed shown in game already includes your active buffs. Only tick a buff here if it is not active yet.",
    pos:"Position",none:"None",cm:"Chief Minister",na:"Noble Advisor",hk:"High King Bonus",hkSub:"upgrades the position value",
    mob:"Mobilize",kvk:"Kingdom of Power Bonus",total:"Total speed",
-   out:"Result",time:"Time",orig:"Original",troops:"Troops you can afford",gems:"Instant finish with gems",
+   out:"Result",time:"Training time",orig:"Without any speed",used:"Speedup time used",left:"Speedups left over",troops:"Troops you can afford",gems:"Instant finish with gems",
    bread:"Bread",wood:"Wood",stone:"Stone",iron:"Iron",own:"My resources (optional)",ownHint:"Enter what you own to see what is missing.",
    empty:"Enter a troop count or your speedups to see the result.",src:"All numbers were taken directly from the game and checked on two accounts."},
   langBtn:"ع",langLabel:"العربية"}
@@ -1218,7 +1218,9 @@ function trOut(){
   if(!o.n){el.innerHTML='<div class="grp"><p class="hint" style="margin:0">'+L.empty+'</p></div>';return;}
   var h='<div class="res">',r="";
   if(t.by==="t")h+='<div class="wide"><span>'+L.troops+'</span><b class="num">'+fmt(o.n)+'</b></div>';
-  h+='<div class="wide"><span>'+L.time+'</span><b class="num" dir="ltr" style="text-align:start">'+fmtT(o.act)+'</b><small>'+L.orig+': <span class="num" dir="ltr">'+fmtT(o.base)+'</span></small></div>';
+  var sub2=[];if(t.by==="t")sub2.push(L.left+': <span class="num" dir="ltr">'+fmtT(o.secs-o.act)+'</span>');
+  if(o.base!==o.act)sub2.push(L.orig+': <span class="num" dir="ltr">'+fmtT(o.base)+'</span>');
+  h+='<div class="wide"><span>'+(t.by==="t"?L.used:L.time)+'</span><b class="num" dir="ltr" style="text-align:start">'+fmtT(o.act)+'</b>'+(sub2.length?'<small>'+sub2.join(" · ")+'</small>':'')+'</div>';
   TRK.forEach(function(k){var own=t.own[k],lack=o[k]-own,sub=own?(lack>0?'<small class="lack">'+T.short(fmt(lack))+'</small>':'<small class="okk">'+T.enough+'</small>'):'';
     r+='<div class="rb">'+ti(k)+'<div><b class="num">'+fmt(o[k])+'</b><small>'+L[k]+'</small>'+sub+'</div></div>';});
   h+='</div><div class="grp"><h3 style="margin-bottom:8px">'+T.need+'</h3><div class="rbs">'+r+
