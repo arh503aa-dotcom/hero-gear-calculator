@@ -224,6 +224,36 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .bknote .btn{display:flex;align-items:center;gap:6px;flex:none}
 .ic-xp{color:#9B7BE8}.ic-ham{color:#C9A26A}.ic-myth{color:#EDB84C}.ic-mith{color:#5CC4E0}
 
+/* ---------- sections + troop training ---------- */
+.sect{flex:none;background:var(--bar);color:var(--bar-ink);padding:6px 10px 0;display:flex;gap:6px;align-items:center}
+.sect .seg button{height:32px;font-size:14px}
+.sect .ibtn{height:38px}
+#trsheet{z-index:4}
+#trsheet .sect{padding-bottom:6px}
+.tr-lab{font-size:13.5px;font-weight:700;color:var(--muted);margin:8px 0 5px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tr-lab:first-child{margin-top:0}
+.tr-lab button{font-size:12.5px;font-weight:700;color:var(--teal);text-decoration:underline}
+.pick{display:flex;gap:3px;background:var(--field);border-radius:10px;padding:3px}
+.pick button{flex:1;min-width:0;height:38px;border-radius:8px;font-weight:700;font-size:14.5px;color:var(--muted);white-space:nowrap}
+.pick button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+.pick button:disabled{opacity:.28}
+.pick.t button{font-size:12.5px;height:36px}
+.pick small{font-weight:500;opacity:.8;font-size:12px;display:block;line-height:1.1}.pick.pos button{height:50px;font-size:13.5px;line-height:1.25;white-space:normal;padding:0 2px}
+.tr-in{display:flex;gap:6px}
+.tr-in label{flex:1;display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);text-align:center;min-width:0}
+.tr-in input,.tr-one input{width:100%;height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--field);color:var(--ink);
+  font:700 19px "Changa","Tajawal",Tahoma,sans-serif;text-align:center;padding:0 6px;direction:ltr}
+.tr-in input:focus,.tr-one input:focus{outline:none;border-color:var(--teal)}
+.chk{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px dashed var(--line);font-size:14.5px;font-weight:500;width:100%;text-align:start}
+.chk i{width:22px;height:22px;border-radius:6px;border:2px solid var(--muted);flex:none;display:grid;place-items:center;font-style:normal;color:transparent;font-weight:700;font-size:14px;line-height:1}
+.chk[aria-pressed="true"] i{background:var(--teal);border-color:var(--teal);color:#fff}
+.chk span{flex:1}.chk b{color:var(--muted)}
+.chk:disabled{opacity:.4}
+.tr-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:2px;padding-top:9px;font-weight:700;font-size:15px}
+.tr-total b{font-size:20px;color:var(--teal)}
+.res b.mid{font-size:21px}
+.res i.dot{display:inline-block}
+
 /* ---------- full summary ---------- */
 .sheet{position:fixed;inset:0;z-index:5;background:var(--bg);display:flex;flex-direction:column;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -292,6 +322,7 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="hg_gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9A0"/><stop offset=".55" stop-color="#F3BE4A"/><stop offset="1" stop-color="#C98A1E"/></linearGradient><linearGradient id="hg_steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4F7FB"/><stop offset="1" stop-color="#93A1B4"/></linearGradient><linearGradient id="hg_lea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9A066"/><stop offset="1" stop-color="#9A5F2C"/></linearGradient><linearGradient id="hg_ice" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2FBFF"/><stop offset=".5" stop-color="#9FD8F5"/><stop offset="1" stop-color="#5E8FE0"/></linearGradient><linearGradient id="hg_wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B9773A"/><stop offset="1" stop-color="#7A4A1E"/></linearGradient></defs></svg>
 
+<nav class="sect"><div class="seg" data-sect></div></nav>
 <header class="top">
   <div class="seg" role="tablist" id="tabs"></div>
   <button class="ibtn txt" id="bag"></button>
@@ -309,6 +340,11 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 </footer>
 
 <div class="menu" id="menu" hidden><button type="button" id="theme"></button><button type="button" id="lang"></button></div>
+
+<section class="sheet" id="trsheet" hidden>
+  <nav class="sect"><div class="seg" data-sect></div><button class="ibtn" id="gear2"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 5.500h14M3 10h14M3 14.500h14"/></svg></button></nav>
+  <div class="body" id="tr-body"></div>
+</section>
 
 <section class="sheet" id="bksheet" hidden>
   <div class="top"><h1 id="bk-title"></h1><button class="ibtn" data-close>✕</button></div>
@@ -381,7 +417,19 @@ var I18N={
   st:{saved:"محفوظ في حسابك ✓",saving:"جارٍ الحفظ…",local:"محفوظ على هذا الجهاز"},
   barHide:"إخفاء الشريط",barShow:"إظهار الشريط",credit:"تم إنشاء هذا الموقع من قبل",
   stats:function(t){return "إحصائيات عتاد "+this.hero(t);},exp:"الحملة الاستكشافية",conq:"الغزو",
-  stNow:"الحالي",stAfter:"بعد التطوير",stGain:"الزيادة",langBtn:"EN",langLabel:"English"},
+  stNow:"الحالي",stAfter:"بعد التطوير",stGain:"الزيادة",secGear:"عتاد الأبطال",secTroops:"تدريب الجنود",
+  tr:{mode:"الوضع",train:"تدريب",promo:"تعزيز",type:"نوع الجنود",tier:"المستوى",from:"من مستوى",to:"إلى مستوى",
+   promoHint:"اللعبة تعزز الجنود دايماً إلى أعلى مستوى مفتوح عندك.",
+   by:"احسب حسب",byN:"عدد الجنود",byT:"التسريعات",n:"عدد الجنود",d:"أيام",h:"ساعات",m:"دقائق",
+   speed:"سرعة التدريب %",where:"وين ألقى نسبتي؟",
+   whereTxt:"في اللعبة: «نظرة عامة على المكافأة» ← «عسكري» ← «سرعة التدريب». أو اضغط علامة التعجب جنب «الأصلي» في شاشة التدريب.",
+   buffs:"البوفات",buffHint:"النسبة اللي في اللعبة فيها البوفات المفعّلة عندك الآن. شغّل هنا فقط البوف اللي ما فعّلته بعد.",
+   pos:"المنصب",none:"بدون",cm:"رئيس الوزراء",na:"مستشار نبيل",hk:"علاوة الملك الأعلى",hkSub:"ترفع قيمة المنصب",
+   mob:"التعبئة",kvk:"علاوة مملكة القوة",total:"إجمالي السرعة",
+   out:"النتيجة",time:"الوقت",orig:"الأصلي",troops:"عدد الجنود اللي تقدر عليهم",gems:"الإنهاء الفوري بالجواهر",
+   bread:"خبز",wood:"خشب",stone:"حجر",iron:"حديد",own:"مواردي (اختياري)",ownHint:"اكتب اللي عندك، ويطلع لك الناقص.",
+   empty:"اكتب عدد الجنود أو التسريعات عشان تطلع النتيجة.",src:"كل الأرقام مأخوذة من اللعبة مباشرة ومتأكد منها على حسابين."},
+  langBtn:"EN",langLabel:"English"},
  en:{dir:"ltr",title:"Hero Gear Calculator",
   bag:"Backpack",bagHint:"Enter what you own in the game. The calculator compares it with what you need and shows what is missing.",
   x10:"10 Enhancement XP Part",x100:"100 Enhancement XP Part",
@@ -416,7 +464,19 @@ var I18N={
   st:{saved:"Saved to your account ✓",saving:"Saving…",local:"Saved on this device"},
   barHide:"Hide the bar",barShow:"Show the bar",credit:"This site was created by",
   stats:function(t){return this.the[t]+" hero gear stats";},exp:"Expedition",conq:"Conquest",
-  stNow:"Current",stAfter:"After",stGain:"Increase",langBtn:"ع",langLabel:"العربية"}
+  stNow:"Current",stAfter:"After",stGain:"Increase",secGear:"Hero Gear",secTroops:"Troop Training",
+  tr:{mode:"Mode",train:"Train",promo:"Promote",type:"Troop type",tier:"Tier",from:"From tier",to:"To tier",
+   promoHint:"The game always promotes troops to your highest unlocked tier.",
+   by:"Calculate by",byN:"Troop count",byT:"Speedups",n:"Troop count",d:"Days",h:"Hours",m:"Minutes",
+   speed:"Training Speed %",where:"Where do I find it?",
+   whereTxt:"In game: Bonus Overview → Military → Training Speed. Or tap the exclamation mark next to “Original” on the training screen.",
+   buffs:"Buffs",buffHint:"The speed shown in game already includes your active buffs. Only tick a buff here if it is not active yet.",
+   pos:"Position",none:"None",cm:"Chief Minister",na:"Noble Advisor",hk:"High King Bonus",hkSub:"upgrades the position value",
+   mob:"Mobilize",kvk:"Kingdom of Power Bonus",total:"Total speed",
+   out:"Result",time:"Time",orig:"Original",troops:"Troops you can afford",gems:"Instant finish with gems",
+   bread:"Bread",wood:"Wood",stone:"Stone",iron:"Iron",own:"My resources (optional)",ownHint:"Enter what you own to see what is missing.",
+   empty:"Enter a troop count or your speedups to see the result.",src:"All numbers were taken directly from the game and checked on two accounts."},
+  langBtn:"ع",langLabel:"العربية"}
 };
 var T=I18N.ar;
 
@@ -697,7 +757,7 @@ function build(){
   $("lang").innerHTML='<b class="num" style="width:19px;text-align:center">'+T.langBtn+'</b><span>'+T.langLabel+'</span>';
   $("bk").innerHTML=IC_BK+"<span>"+T.bk+"</span>";$("bk-title").textContent=T.bkTitle;$("gear").setAttribute("aria-label",T.settings);
   $("shotsave").textContent=T.shotSave;$("shotpdf").textContent=T.shotFile;$("shotclose").textContent=T.close;$("shothint").textContent=T.shotHint;
-  applyBar();render();alignLabels();
+  applyBar();render();alignLabels();applyView();
 }
 
 /* ---------- render ---------- */
@@ -1062,6 +1122,105 @@ scroll.addEventListener("click",function(e){
   if(b.dataset.d){if(held){held=false;return;}stepBtn(b);}
 });
 
+
+/* ---------- troop training (numbers read from the game screens, checked on two accounts) ---------- */
+var TRT=[12,17,24,32,44,60,83,113,131,152];
+var TRD={
+ inf:{bread:[36,58,92,120,156,186,279,558,1394,2788],wood:[27,44,69,90,117,140,210,419,1046,2091],stone:[7,10,17,21,27,33,49,98,244,488],iron:[2,3,4,5,6,7,11,21,51,102]},
+ cav:{bread:[32,51,81,105,136,163,244,488,1220,2440],wood:[30,48,76,99,129,154,231,461,1151,2301],stone:[7,10,16,21,27,32,48,95,237,474],iron:[2,3,4,5,7,8,11,22,55,109]},
+ arc:{bread:[23,36,58,75,97,117,175,349,872,1743],wood:[34,54,86,111,144,173,258,516,1290,2579],stone:[6,9,15,19,24,29,44,87,217,433],iron:[2,4,5,6,8,10,14,28,70,140]}
+};
+var TRK=["bread","wood","stone","iron"],TRC={bread:"#E0A23A",wood:"#9A6A3A",stone:"#9AA3AE",iron:"#5B6577"};
+function blankTr(){return {mode:"train",type:"inf",from:9,to:10,by:"n",n:0,d:0,h:0,m:0,speed:0,pos:"none",hk:false,mob:false,kvk:false,own:{bread:0,wood:0,stone:0,iron:0}};}
+S.view="gear";S.tr=blankTr();
+function trFix(){var t=S.tr;t.to=clamp(t.to|0,1,10);if(t.mode==="promo"){if(t.to<2)t.to=2;t.from=clamp(t.from|0,1,t.to-1);}if(t.hk)t.kvk=false;}
+(function(){try{var sv=JSON.parse(localStorage.getItem(KEY)||"null");if(!sv)return;
+  if(sv.view==="troops")S.view="troops";var a=sv.tr;if(!a)return;var t=S.tr;
+  if(a.mode==="promo")t.mode="promo";if(TROOPS.indexOf(a.type)>=0)t.type=a.type;if(a.by==="t")t.by="t";
+  t.from=+a.from||9;t.to=+a.to||10;["n","d","h","m"].forEach(function(k){var v=parseInt(a[k],10);t[k]=v>0?Math.min(v,9999999):0;});
+  var sp=parseFloat(a.speed);t.speed=sp>0?Math.min(Math.round(sp*10)/10,2000):0;
+  if(a.pos==="cm"||a.pos==="na")t.pos=a.pos;t.hk=!!a.hk;t.mob=!!a.mob;t.kvk=!!a.kvk;
+  if(a.own)TRK.forEach(function(k){var v=parseInt(a.own[k],10);t.own[k]=v>0?Math.min(v,99999999999):0;});trFix();}catch(e){}})();
+function trBuff(){var t=S.tr,b=0;if(t.pos==="cm")b+=t.hk?15:10;if(t.pos==="na")b+=t.hk?75:50;if(t.mob)b+=30;if(t.kvk)b+=25;return b;}
+function trCalc(){
+  var t=S.tr,D=TRD[t.type],to=t.to-1,fr=t.mode==="promo"?t.from-1:-1,per={time:TRT[to]-(fr>=0?TRT[fr]:0)};
+  TRK.forEach(function(k){per[k]=D[k][to]-(fr>=0?D[k][fr]:0);});
+  var den=1000+Math.round(t.speed*10)+trBuff()*10,n=t.n,secs=0;
+  if(t.by==="t"){secs=t.d*86400+t.h*3600+t.m*60;n=Math.floor(secs*den/(1000*per.time));
+    while(Math.floor((n+1)*per.time*1000/den)<=secs)n++;while(n>0&&Math.floor(n*per.time*1000/den)>secs)n--;}
+  var base=n*per.time,act=Math.floor(base*1000/den),o={n:n,base:base,act:act,gems:Math.ceil(act*2/9),speed:(den-1000)/10,secs:secs};
+  TRK.forEach(function(k){o[k]=n*per[k];});return o;
+}
+function p2(v){return (v<10?"0":"")+v;}
+function fmtT(x){var d=Math.floor(x/86400);x%=86400;return (d?d+"d ":"")+p2(Math.floor(x/3600))+":"+p2(Math.floor(x%3600/60))+":"+p2(x%60);}
+function trPick(key,opts,cur,cls){return '<div class="pick'+(cls?" "+cls:"")+'" data-pick="'+key+'">'+opts.map(function(o){
+  return '<button type="button" data-v="'+o[0]+'" aria-pressed="'+(String(cur)===String(o[0]))+'"'+(o[2]?" disabled":"")+'>'+o[1]+'</button>';}).join("")+'</div>';}
+function trInput(k,v,dec){return '<input data-k="'+k+'" type="text" inputmode="'+(dec?"decimal":"numeric")+'" autocomplete="off" placeholder="0" value="'+(v||"")+'">';}
+function trChk(k,label,val,on,dis){return '<button type="button" class="chk" data-chk="'+k+'" aria-pressed="'+!!on+'"'+(dis?" disabled":"")+'><i>✓</i><span>'+label+'</span><b class="num" dir="ltr">+'+val+'%</b></button>';}
+var trWhere=false;
+function renderTroops(){
+  var t=S.tr,L=T.tr,body=$("tr-body");if(!body)return;var y=body.scrollTop,tiers=[1,2,3,4,5,6,7,8,9,10];
+  var h='<div class="grp"><div class="tr-lab">'+L.mode+'</div>'+trPick("mode",[["train",L.train],["promo",L.promo]],t.mode)+
+    '<div class="tr-lab">'+L.type+'</div>'+trPick("type",TROOPS.map(function(k){return [k,T.troops[k]];}),t.type);
+  if(t.mode==="promo"){
+    h+='<div class="tr-lab">'+L.from+'</div>'+trPick("from",tiers.slice(0,9).map(function(i){return [i,"T"+i,i>=t.to];}),t.from,"t")+
+       '<div class="tr-lab">'+L.to+'</div>'+trPick("to",tiers.slice(1).map(function(i){return [i,"T"+i];}),t.to,"t")+'<p class="hint" style="margin:6px 0 0">'+L.promoHint+'</p>';
+  }else h+='<div class="tr-lab">'+L.tier+'</div>'+trPick("to",tiers.map(function(i){return [i,"T"+i];}),t.to,"t");
+  h+='</div><div class="grp"><div class="tr-lab">'+L.by+'</div>'+trPick("by",[["n",L.byN],["t",L.byT]],t.by)+'<div style="height:8px"></div>';
+  h+=t.by==="n"?'<div class="tr-one">'+trInput("n",t.n)+'</div>':
+    '<div class="tr-in"><label>'+trInput("d",t.d)+L.d+'</label><label>'+trInput("h",t.h)+L.h+'</label><label>'+trInput("m",t.m)+L.m+'</label></div>';
+  h+='</div><div class="grp"><div class="tr-lab">'+L.speed+'<button type="button" id="tr-where">'+L.where+'</button></div>'+
+    (trWhere?'<p class="hint">'+L.whereTxt+'</p>':'')+'<div class="tr-one">'+trInput("speed",t.speed,1)+'</div>'+
+    '<div class="tr-lab">'+L.buffs+'</div><p class="hint">'+L.buffHint+'</p>'+
+    trPick("pos",[["none",L.none],["cm",L.cm+' <small class="num">'+(t.hk?15:10)+'%</small>'],["na",L.na+' <small class="num">'+(t.hk?75:50)+'%</small>']],t.pos,"pos")+
+    '<div style="height:4px"></div>'+
+    '<button type="button" class="chk" data-chk="hk" aria-pressed="'+t.hk+'" style="border-top:0"><i>✓</i><span>'+L.hk+'</span><b style="font-weight:500;font-size:12.5px">'+L.hkSub+'</b></button>'+
+    trChk("mob",L.mob,30,t.mob)+trChk("kvk",L.kvk,25,t.kvk,t.hk)+
+    '<div class="tr-total"><span>'+L.total+'</span><b class="num" dir="ltr" id="tr-speed"></b></div></div>'+
+    '<div id="tr-out" style="display:contents"></div>'+
+    '<div class="grp"><h3>'+L.own+'</h3><p class="hint">'+L.ownHint+'</p>'+TRK.map(function(k){
+      return '<div class="fld"><label><i class="dot" style="background:'+TRC[k]+'"></i><span>'+L[k]+'</span></label>'+trInput("own."+k,t.own[k])+'</div>';}).join("")+'</div>'+
+    '<p class="hint" style="text-align:center;margin:0">'+L.src+'</p>'+creditHTML();
+  body.innerHTML=h;body.scrollTop=y;trOut();
+}
+function trOut(){
+  var t=S.tr,L=T.tr,o=trCalc(),el=$("tr-out");if(!el)return;
+  $("tr-speed").textContent=o.speed+"%";
+  if(!o.n){el.innerHTML='<div class="grp"><p class="hint" style="margin:0">'+L.empty+'</p></div>';return;}
+  var h='<div class="res">';
+  if(t.by==="t")h+='<div class="wide"><span>'+L.troops+'</span><b class="num">'+fmt(o.n)+'</b></div>';
+  h+='<div class="wide"><span>'+L.time+'</span><b class="num" dir="ltr" style="text-align:start">'+fmtT(o.act)+'</b><small>'+L.orig+': <span class="num" dir="ltr">'+fmtT(o.base)+'</span></small></div>';
+  TRK.forEach(function(k){var own=t.own[k],lack=o[k]-own,sub=own?(lack>0?'<small class="lack">'+T.short(fmt(lack))+'</small>':'<small class="okk">'+T.enough+'</small>'):'';
+    h+='<div><span><i class="dot" style="background:'+TRC[k]+'"></i>'+L[k]+'</span><b class="num mid">'+fmt(o[k])+'</b>'+sub+'</div>';});
+  h+='<div class="wide"><span>'+L.gems+'</span><b class="num mid">'+fmt(o.gems)+'</b></div></div>';
+  el.innerHTML=h;
+}
+function applyView(){
+  var tr=S.view==="troops";$("trsheet").hidden=!tr;
+  [].forEach.call(document.querySelectorAll("[data-sect]"),function(el){
+    el.innerHTML='<button type="button" data-v="gear" aria-pressed="'+!tr+'">'+T.secGear+'</button><button type="button" data-v="troops" aria-pressed="'+tr+'">'+T.secTroops+'</button>';});
+  if(tr)renderTroops();
+}
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-sect] button");
+  if(b){S.view=b.dataset.v;saveLocal();applyView();if(S.view==="gear"){measure();alignLabels();}return;}
+  if(!e.target.closest("#trsheet"))return;var t=S.tr;
+  if(e.target.closest("#tr-where")){trWhere=!trWhere;renderTroops();return;}
+  var c=e.target.closest("[data-chk]");
+  if(c){var k=c.dataset.chk;t[k]=!t[k];if(k==="hk"&&t.hk)t.kvk=false;saveLocal();renderTroops();return;}
+  var p=e.target.closest("[data-pick] button");
+  if(p){var key=p.parentElement.dataset.pick,v=p.dataset.v;t[key]=(key==="from"||key==="to")?+v:v;trFix();saveLocal();renderTroops();}
+});
+document.addEventListener("input",function(e){
+  var el=e.target;if(!el.dataset||!el.dataset.k||!el.closest("#trsheet"))return;var t=S.tr,k=el.dataset.k,raw=el.value;
+  if(k==="speed"){var c=raw.replace(/[٠-٩]/g,function(d){return "٠١٢٣٤٥٦٧٨٩".indexOf(d);}).replace(/[,٫]/g,".").replace(/[^0-9.]/g,"");
+    var v=parseFloat(c);t.speed=v>0?Math.min(Math.round(v*10)/10,2000):0;if(c!==raw)el.value=c;}
+  else{var n=parseInt(raw.replace(/[٠-٩]/g,function(d){return "٠١٢٣٤٥٦٧٨٩".indexOf(d);}).replace(/[^0-9]/g,""),10);n=n>0?n:0;
+    if(k.indexOf("own.")===0){t.own[k.slice(4)]=Math.min(n,99999999999);}else t[k]=Math.min(n,9999999);
+    var want=n?String(n):"";if(el.value!==want)el.value=want;}
+  saveLocal();trOut();
+});
+$("gear2").addEventListener("click",function(e){e.stopPropagation();menu.hidden=!menu.hidden;if(!menu.hidden)alignLabels();});
 measure();build();initCloud();
 /* fonts are added after the app is running, so a slow or blocked font server can never hold the page up */
 (function(){var l=document.createElement("link");l.rel="stylesheet";
