@@ -252,6 +252,7 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .tr-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:2px;padding-top:9px;font-weight:700;font-size:15px}
 .tr-total b{font-size:20px;color:var(--teal)}
 .res b.mid{font-size:21px}
+.tr-empty{background:var(--warn-bg);color:var(--warn);border:1.5px solid var(--warn);border-radius:12px;padding:11px 12px;font-weight:700;font-size:14.5px;text-align:center}
 .pick.ico button{height:50px;display:flex;align-items:center;justify-content:center;gap:7px}
 .pick.ico .ti{width:34px;height:34px}
 .pick.pos button{display:flex;align-items:center;justify-content:center;gap:6px;height:54px}
@@ -1223,7 +1224,7 @@ function renderTroops(){
 function trOut(){
   var t=S.tr,L=T.tr,o=trCalc(),el=$("tr-out");if(!el)return;
   $("tr-speed").textContent=o.speed+"%";
-  if(!o.n){el.innerHTML='<div class="grp"><p class="hint" style="margin:0">'+L.empty+'</p></div>';return;}
+  if(!o.n){el.innerHTML='<div class="tr-empty">'+L.empty+'</div>';return;}
   var h='<div class="res">',r="";
   if(t.by==="t")h+='<div class="wide"><span>'+L.troops+'</span><b class="num">'+fmt(o.n)+'</b></div>';
   var sub2=[];if(t.by==="t")sub2.push(L.left+': <span class="num" dir="ltr">'+fmtT(o.secs-o.act)+'</span>');
