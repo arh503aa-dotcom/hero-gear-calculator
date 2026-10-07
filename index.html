@@ -252,6 +252,16 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .tr-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:2px;padding-top:9px;font-weight:700;font-size:15px}
 .tr-total b{font-size:20px;color:var(--teal)}
 .res b.mid{font-size:21px}
+.how{background:var(--field);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:13.5px}
+.how ol{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:8px}
+.how small{color:var(--muted);font-size:11.5px}
+.how-pw{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--card);border-radius:99px;padding:3px 12px;margin:5px 0 0;font-weight:700;border:2.5px solid var(--red)}
+.how-pw i{font-style:normal}
+.how-box{margin:6px 0 3px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.how-box em{display:block;font-style:normal;font-weight:700;text-align:center;padding:6px;background:var(--line)}
+.how-box .hd{font-weight:700;padding:6px 10px;border-bottom:1px solid var(--line)}
+.how-box .rw{display:flex;justify-content:space-between;padding:7px 10px;color:var(--muted)}
+.how-box .rw.hit{color:var(--ink);font-weight:700;outline:3px solid var(--red);outline-offset:-3px;border-radius:8px}
 .res i.dot{display:inline-block}
 
 /* ---------- full summary ---------- */
@@ -422,7 +432,8 @@ var I18N={
    promoHint:"اللعبة تعزز الجنود دايماً إلى أعلى مستوى مفتوح عندك.",
    by:"احسب حسب",byN:"عدد الجنود",byT:"التسريعات",n:"عدد الجنود",d:"أيام",h:"ساعات",m:"دقائق",
    speed:"سرعة التدريب %",where:"وين ألقى نسبتي؟",
-   whereTxt:"في اللعبة: «نظرة عامة على المكافأة» ← «عسكري» ← «سرعة التدريب». أو اضغط علامة التعجب جنب «الأصلي» في شاشة التدريب.",
+   w1:"اضغط على رقم قوتك أعلى الشاشة في اللعبة.",w2:"تفتح لك «نظرة عامة على المكافأة». انزل إلى قسم «عسكري».",w3:"انسخ الرقم اللي جنب «سرعة التدريب» واكتبه هنا.",
+   wPower:"القوة",wTitle:"نظرة عامة على المكافأة",wMil:"عسكري",wCap:"قدرة التدريب",wSpd:"سرعة التدريب",wEx:"مثال توضيحي",
    buffs:"البوفات",buffHint:"النسبة اللي في اللعبة فيها البوفات المفعّلة عندك الآن. شغّل هنا فقط البوف اللي ما فعّلته بعد.",
    pos:"المنصب",none:"بدون",cm:"رئيس الوزراء",na:"مستشار نبيل",hk:"علاوة الملك الأعلى",hkSub:"ترفع قيمة المنصب",
    mob:"التعبئة",kvk:"علاوة مملكة القوة",total:"إجمالي السرعة",
@@ -469,7 +480,8 @@ var I18N={
    promoHint:"The game always promotes troops to your highest unlocked tier.",
    by:"Calculate by",byN:"Troop count",byT:"Speedups",n:"Troop count",d:"Days",h:"Hours",m:"Minutes",
    speed:"Training Speed %",where:"Where do I find it?",
-   whereTxt:"In game: Bonus Overview → Military → Training Speed. Or tap the exclamation mark next to “Original” on the training screen.",
+   w1:"Tap your power number at the top of the game screen.",w2:"The Bonus Overview opens. Scroll down to the Military section.",w3:"Copy the number next to Training Speed and enter it here.",
+   wPower:"Power",wTitle:"Bonus Overview",wMil:"Military",wCap:"Training Capacity",wSpd:"Training Speed",wEx:"Illustration",
    buffs:"Buffs",buffHint:"The speed shown in game already includes your active buffs. Only tick a buff here if it is not active yet.",
    pos:"Position",none:"None",cm:"Chief Minister",na:"Noble Advisor",hk:"High King Bonus",hkSub:"upgrades the position value",
    mob:"Mobilize",kvk:"Kingdom of Power Bonus",total:"Total speed",
@@ -1158,6 +1170,10 @@ function trPick(key,opts,cur,cls){return '<div class="pick'+(cls?" "+cls:"")+'" 
 function trInput(k,v,dec){return '<input data-k="'+k+'" type="text" inputmode="'+(dec?"decimal":"numeric")+'" autocomplete="off" placeholder="0" value="'+(v||"")+'">';}
 function trChk(k,label,val,on,dis){return '<button type="button" class="chk" data-chk="'+k+'" aria-pressed="'+!!on+'"'+(dis?" disabled":"")+'><i>✓</i><span>'+label+'</span><b class="num" dir="ltr">+'+val+'%</b></button>';}
 var trWhere=false;
+function trWhereHTML(){var L=T.tr;
+  return '<div class="how"><ol><li>'+L.w1+'<div class="how-pw"><span class="num" dir="ltr">123,456,789</span><i>✊</i></div></li><li>'+L.w2+'</li><li>'+L.w3+
+    '<div class="how-box"><em>'+L.wTitle+'</em><div class="hd">'+L.wMil+'</div><div class="rw"><span>'+L.wCap+'</span><b class="num">1,000</b></div>'+
+    '<div class="rw hit"><span>'+L.wSpd+'</span><b class="num" dir="ltr">150.0%</b></div></div><small>'+L.wEx+'</small></li></ol></div>';}
 function renderTroops(){
   var t=S.tr,L=T.tr,body=$("tr-body");if(!body)return;var y=body.scrollTop,tiers=[1,2,3,4,5,6,7,8,9,10];
   var h='<div class="grp"><div class="tr-lab">'+L.mode+'</div>'+trPick("mode",[["train",L.train],["promo",L.promo]],t.mode)+
@@ -1170,7 +1186,7 @@ function renderTroops(){
   h+=t.by==="n"?'<div class="tr-one">'+trInput("n",t.n)+'</div>':
     '<div class="tr-in"><label>'+trInput("d",t.d)+L.d+'</label><label>'+trInput("h",t.h)+L.h+'</label><label>'+trInput("m",t.m)+L.m+'</label></div>';
   h+='</div><div class="grp"><div class="tr-lab">'+L.speed+'<button type="button" id="tr-where">'+L.where+'</button></div>'+
-    (trWhere?'<p class="hint">'+L.whereTxt+'</p>':'')+'<div class="tr-one">'+trInput("speed",t.speed,1)+'</div>'+
+    (trWhere?trWhereHTML():'')+'<div class="tr-one">'+trInput("speed",t.speed,1)+'</div>'+
     '<div class="tr-lab">'+L.buffs+'</div><p class="hint">'+L.buffHint+'</p>'+
     trPick("pos",[["none",L.none],["cm",L.cm+' <small class="num">'+(t.hk?15:10)+'%</small>'],["na",L.na+' <small class="num">'+(t.hk?75:50)+'%</small>']],t.pos,"pos")+
     '<div style="height:4px"></div>'+
