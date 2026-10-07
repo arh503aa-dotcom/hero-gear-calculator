@@ -257,16 +257,7 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 #sectmenu .ti{width:30px;height:30px;border-radius:7px;overflow:hidden;background:linear-gradient(#F3B75C,#C9781F)}
 #sectmenu button[aria-pressed="true"]{background:var(--field)}
 #trbag{z-index:6}
-#tr-out{gap:7px}
-.trb1{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.trb1>div:first-child{display:flex;flex-direction:column;line-height:1.15;text-align:start}
-.trb1 small{font-size:11.5px;opacity:.75}.trb1 b{font-size:21px}
-#tr-out .rb{background:none;border:0;padding:0;min-height:0}
-#tr-out .rb.gm{flex:none;gap:6px;align-items:center}#tr-out .rb.gm .ti{width:22px;height:22px}#tr-out .rb.gm b{font-size:17px}
-.trb2 .rb{flex-direction:column;align-items:center;gap:0}
-.trb2 b{font-size:12.5px}
-#tr-out .rb small{color:inherit;opacity:.75;font-size:11px;font-weight:400}
-#tr-out .rb small.lack{color:#FFB3A8;opacity:1;font-weight:700;font-size:10.5px}#tr-out .rb small.okk{color:#8FE0B0;opacity:1;font-weight:700;font-size:10.5px}
+.rb.tm b{font-size:21px}.rb.tm>div{flex-direction:column}
 .top .ibtn.sw{min-width:36px;width:36px;padding:0}.top .ibtn.sw svg{width:18px;height:18px}
 .top{gap:4px;padding-inline:8px}.top .seg{padding:2px;gap:2px}.top .seg button{font-size:13.5px;padding:0 1px}.top .ibtn.txt{padding:0 6px;font-size:12.5px;gap:3px}.top .ibtn.txt svg{width:14px;height:14px}[dir="ltr"] .top .seg button{font-size:12px}[dir="ltr"] .top .ibtn.txt{padding:0 6px;font-size:12px}.trb2 .ti{width:22px;height:22px;display:block}
 .tr-empty{background:var(--card);color:var(--gold);border:1px solid var(--line);border-inline-start:4px solid var(--gold);border-radius:12px;padding:11px 12px;font-weight:700;font-size:14.5px;text-align:center}
@@ -390,7 +381,6 @@ label.rb:focus-within{border-color:var(--teal)}.how-pw .ti{width:22px;height:22p
 <section class="sheet" id="trsheet" hidden>
   <header class="top"><button class="ibtn sw" data-sw aria-haspopup="true"><svg viewBox="0 0 20 20" fill="currentColor"><rect x="2" y="2" width="7" height="7" rx="2"/><rect x="11" y="2" width="7" height="7" rx="2"/><rect x="2" y="11" width="7" height="7" rx="2"/><rect x="11" y="11" width="7" height="7" rx="2"/></svg></button><div class="seg" role="tablist" id="tr-tabs"></div><button class="ibtn txt" id="tr-bag"></button><button class="ibtn" id="gear2"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 5.500h14M3 10h14M3 14.500h14"/></svg></button></header>
   <div class="body" id="tr-body"></div>
-  <footer class="bottom" id="tr-out"></footer>
 </section>
 <section class="sheet" id="trbag" hidden>
   <div class="top"><h1 id="trbag-title"></h1><button class="ibtn" data-close>✕</button></div>
@@ -1024,9 +1014,9 @@ function drawShot(){
   return out;
 }
 var shotBlob=null,shotUrl="",shotCv=null;
-function makeShot(){
+function makeShot(fn){
   var go=function(){
-    var cv=shotCv=drawShot();
+    var cv=shotCv=(fn||drawShot)();
     $("shothint").textContent=T.shotHint;$("shotimg").src=cv.toDataURL("image/png");$("shotview").hidden=false;shotBlob=null;
     try{cv.toBlob(function(b){shotBlob=b;},"image/png");}catch(e){}
   };
@@ -1114,7 +1104,7 @@ document.addEventListener("click",function(e){if(!menu.hidden&&!e.target.closest
 $("bk").addEventListener("click",function(){bksheet.hidden=false;renderBackup();});
 $("shotclose").addEventListener("click",function(){$("shotview").hidden=true;});
 $("shotsave").addEventListener("click",saveShot);$("shotpdf").addEventListener("click",savePdf);
-$("sh-body").addEventListener("click",function(e){if(e.target.closest("#shot"))makeShot();
+$("sh-body").addEventListener("click",function(e){if(e.target.closest("#shot"))makeShot(null);
   if(e.target.closest("#tobk")){sheet.hidden=true;bksheet.hidden=false;renderBackup();}});
 $("bag").addEventListener("click",function(){bagsheet.hidden=false;renderBag();alignLabels();});
 $("bag-in").addEventListener("input",function(e){
@@ -1237,7 +1227,7 @@ function renderTroops(){
     '<button type="button" class="chk" data-chk="hk" aria-pressed="'+t.hk+'" style="border-top:0"><i>✓</i><span>'+L.hk+'</span><b style="font-weight:500;font-size:12.5px">'+L.hkSub+'</b></button>'+
     trChk("mob",L.mob,30,t.mob)+trChk("kvk",L.kvk,25,t.kvk,t.hk)+
     '<div class="tr-total"><span>'+L.total+'</span><b class="num" dir="ltr" id="tr-speed"></b></div></div>'+
-    '<div id="tr-empty" class="tr-empty"></div>'+
+    '<div id="tr-empty" class="tr-empty"></div><div id="tr-out" style="display:contents"></div>'+
     creditHTML();
   body.innerHTML=h;body.scrollTop=y;
   $("tr-tabs").innerHTML=TROOPS.map(function(k){return '<button role="tab" data-t="'+k+'" aria-selected="'+(t.type===k)+'">'+T.troops[k]+'</button>';}).join("");
@@ -1252,11 +1242,44 @@ function trOut(){
   var t=S.tr,L=T.tr,o=trCalc(),el=$("tr-out");if(!el)return;
   $("tr-speed").textContent=o.speed+"%";
   var em=$("tr-empty");if(em){em.hidden=!!o.n;em.textContent=L.empty;}
-  var h='<div class="trb1"><div><small>'+(t.by==="t"?L.troops:L.time)+'</small><b class="num" dir="ltr" id="tr-time">'+(t.by==="t"?fmt(o.n):fmtT(o.act))+'</b></div>'+
-    '<div class="rb gm">'+ti("gem")+'<b class="num">'+fmt(o.gems)+'</b><small>'+L.gems+'</small></div></div><div class="tot trb2">';
-  TRK.forEach(function(k){var own=t.own[k],lack=o[k]-own,v=fmt(o[k]),sub=(own&&o.n)?(lack>0?'<small class="lack">'+T.short(fmt(lack))+'</small>':'<small class="okk">'+T.enough+'</small>'):'';
-    h+='<div class="rb"><b class="num">'+ti(k)+'<span>'+v+'</span></b><small>'+L[k]+'</small>'+sub+'</div>';});
-  el.innerHTML=h+'</div>';
+  if(!o.n){el.innerHTML="";return;}
+  var h='<div class="grp"><h3 style="margin-bottom:8px">'+T.need+'</h3><div class="rbs"><div class="rb wide tm"><div><small>'+(t.by==="t"?L.troops:L.time)+'</small><b class="num" dir="ltr" id="tr-time">'+(t.by==="t"?fmt(o.n):fmtT(o.act))+'</b></div></div>';
+  TRK.forEach(function(k){var own=t.own[k],lack=o[k]-own,sub=own?(lack>0?'<small class="lack">'+T.short(fmt(lack))+'</small>':'<small class="okk">'+T.enough+'</small>'):'';
+    h+='<div class="rb">'+ti(k)+'<div><b class="num">'+fmt(o[k])+'</b><small>'+L[k]+'</small>'+sub+'</div></div>';});
+  h+='<div class="rb wide">'+ti("gem")+'<div><b class="num">'+fmt(o.gems)+'</b><small>'+L.gems+'</small></div></div></div>'+
+    '<button type="button" class="wide-btn" id="tr-shot" style="width:100%;margin-top:8px">'+IC_CAM+'<span>'+T.shot+'</span></button></div>';
+  el.innerHTML=h;
+}
+var TRIMG={};
+["bread","wood","stone","iron","gem"].forEach(function(k){try{var im=new Image();im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(TRI[k].replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" '));TRIMG[k]=im;}catch(e){}});
+function drawTrShot(){
+  var t=S.tr,L=T.tr,o=trCalc(),W=360,SC=2,P=14,rtl=T.dir==="rtl",cs=getComputedStyle(document.documentElement);
+  function col(n){return cs.getPropertyValue(n).trim();}
+  var BG=col("--bg"),CARD=col("--card"),INK=col("--ink"),MUT=col("--muted"),LINE=col("--line"),TEAL=col("--teal"),RED=col("--red");
+  var rows=[[t.by==="t"?L.troops:L.time,t.by==="t"?fmt(o.n):fmtT(o.act),null]];
+  TRK.forEach(function(k){var own=t.own[k],lack=o[k]-own;rows.push([L[k],fmt(o[k]),k,own?(lack>0?T.short(fmt(lack)):T.enough):"",lack>0]);});
+  rows.push([L.gems,fmt(o.gems),"gem"]);
+  var rowH=44,H=P+58+rows.length*rowH+8+30;
+  var cv=document.createElement("canvas");cv.width=W*SC;cv.height=H*SC;var x=cv.getContext("2d");x.scale(SC,SC);x.textBaseline="middle";
+  function font(w,sz,num){x.font=w+" "+sz+"px "+(num?'"Changa","Tajawal",Tahoma,sans-serif':'"Tajawal","Segoe UI",Tahoma,sans-serif');}
+  function txt(str,off,y,color,end){x.fillStyle=color;x.direction=T.dir;
+    if(end){x.textAlign=rtl?"left":"right";x.fillText(str,rtl?off:W-off,y);}else{x.textAlign=rtl?"right":"left";x.fillText(str,rtl?W-off:off,y);}}
+  x.fillStyle=BG;x.fillRect(0,0,W,H);
+  var y=P+10;font(700,17);txt(T.secTroops,P,y,INK);
+  y+=24;font(500,12.5);
+  var tier=t.mode==="promo"?"T"+t.from+" → T"+t.to:"T"+t.to;
+  txt((t.mode==="promo"?L.promo:L.train)+" · "+T.troops[t.type]+" · \u2066"+tier+"\u2069"+(t.by==="n"?" · \u2066"+fmt(o.n)+"\u2069":""),P,y,MUT);
+  font(500,12.5);txt(L.total+" \u2066"+o.speed+"%\u2069",P,y,MUT,true);
+  y+=18;var ch=rows.length*rowH+8;
+  x.beginPath();var l=P,tp=y,w=W-2*P,r=14;x.moveTo(l+r,tp);x.arcTo(l+w,tp,l+w,tp+ch,r);x.arcTo(l+w,tp+ch,l,tp+ch,r);x.arcTo(l,tp+ch,l,tp,r);x.arcTo(l,tp,l+w,tp,r);x.closePath();x.fillStyle=CARD;x.fill();x.strokeStyle=LINE;x.lineWidth=1;x.stroke();
+  rows.forEach(function(rw,i){var yc=y+4+rowH*i+rowH/2,off=P+12;
+    if(i){x.strokeStyle=LINE;x.beginPath();x.moveTo(P+12,yc-rowH/2);x.lineTo(W-P-12,yc-rowH/2);x.stroke();}
+    var im=rw[2]&&TRIMG[rw[2]];if(im&&im.complete&&im.naturalWidth){x.drawImage(im,rtl?W-off-28:off,yc-14,28,28);off+=36;}
+    font(700,13.5);txt(rw[0],off,rw[3]?yc-7:yc,INK);
+    if(rw[3]){font(700,10.5);txt(rw[3],off,yc+9,rw[4]?RED:TEAL);}
+    font(700,18,true);txt(rw[1],P+14,yc+1,INK,true);});
+  y+=ch+16;font(400,11);x.fillStyle=MUT;x.direction=T.dir;x.textAlign="center";x.fillText(T.credit+" \u2066Aa10 · K1773\u2069",W/2,y);
+  return cv;
 }
 function applyView(){
   var tr=S.view==="troops";$("trsheet").hidden=!tr;
@@ -1270,6 +1293,7 @@ document.addEventListener("click",function(e){
   var sw=e.target.closest("[data-sw]"),sm=$("sectmenu");
   if(sw){sm.hidden=!sm.hidden;menu.hidden=true;return;}
   if(!sm.hidden&&!e.target.closest("#sectmenu"))sm.hidden=true;
+  if(e.target.closest("#tr-shot")){makeShot(drawTrShot);return;}
   if(e.target.closest("#tr-bag")){$("trbag").hidden=false;renderTrBag();return;}
   var tb=e.target.closest("#tr-tabs button");if(tb){S.tr.type=tb.dataset.t;saveLocal();renderTroops();return;}
   if(!e.target.closest("#trsheet"))return;var t=S.tr;
