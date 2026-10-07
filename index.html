@@ -440,17 +440,17 @@ var I18N={
   stats:function(t){return "إحصائيات عتاد "+this.hero(t);},exp:"الحملة الاستكشافية",conq:"الغزو",
   stNow:"الحالي",stAfter:"بعد التطوير",stGain:"الزيادة",secGear:"عتاد الأبطال",secTroops:"تدريب الجنود",
   tr:{mode:"الوضع",train:"تدريب",promo:"تعزيز",type:"نوع الجنود",tier:"المستوى",from:"من مستوى",to:"إلى مستوى",
-   promoHint:"اللعبة تعزز الجنود دايماً إلى أعلى مستوى مفتوح عندك.",
-   by:"احسب حسب",byN:"عدد الجنود",byT:"التسريعات",n:"عدد الجنود",d:"أيام",h:"ساعات",m:"دقائق",
-   speed:"سرعة التدريب %",where:"وين ألقى نسبتي؟",
-   w1:"اضغط على رقم قوتك أعلى الشاشة في اللعبة.",w2:"تفتح لك «نظرة عامة على المكافأة». انزل إلى قسم «عسكري».",w3:"انسخ الرقم اللي جنب «سرعة التدريب» واكتبه هنا.",
+   promoHint:"اللعبة تعزز الجنود دائماً إلى أعلى مستوى مفتوح لديك.",
+   by:"طريقة الحساب",byN:"عدد الجنود",byT:"التسريع",n:"عدد الجنود",spNote:"مجموع «تسريع تدريب الجنود» و«تسريع عام» اللذين تملكهما.",d:"أيام",h:"ساعات",m:"دقائق",
+   speed:"سرعة التدريب %",where:"أين أجد النسبة؟",
+   w1:"اضغط رقم القوة أعلى الشاشة في اللعبة.",w2:"ستفتح «نظرة عامة على المكافأة». انزل إلى قسم «عسكري».",w3:"انسخ الرقم المقابل لـ«سرعة التدريب» واكتبه هنا.",
    wPower:"القوة",wTitle:"نظرة عامة على المكافأة",wMil:"عسكري",wCap:"قدرة التدريب",wSpd:"سرعة التدريب",wEx:"مثال توضيحي",
    buffs:"البوفات",buffHint:"النسبة اللي في اللعبة فيها البوفات المفعّلة عندك الآن. شغّل هنا فقط البوف اللي ما فعّلته بعد.",
-   pos:"المنصب",none:"بدون",cm:"رئيس الوزراء",na:"مستشار نبيل",hk:"علاوة الملك الأعلى",hkSub:"ترفع قيمة المنصب",
+   pos:"المنصب",none:"بدون",cm:"رئيس الوزراء",na:"مستشار نبيل",hk:"علاوة الملك الأعظم",hkSub:"ترفع قيمة المنصب",
    mob:"التعبئة",kvk:"علاوة مملكة القوة",total:"إجمالي السرعة",
-   out:"النتيجة",time:"وقت التدريب",orig:"بدون أي سرعة",used:"الوقت المستخدم من تسريعاتك",left:"يتبقى من تسريعاتك",troops:"عدد الجنود اللي تقدر عليهم",gems:"الإنهاء الفوري بالجواهر",
-   bread:"خبز",wood:"خشب",stone:"حجر",iron:"حديد",own:"مواردي (اختياري)",ownHint:"اكتب اللي عندك، ويطلع لك الناقص.",
-   empty:"اكتب عدد الجنود أو التسريعات عشان تطلع النتيجة.",src:"كل الأرقام مأخوذة من اللعبة مباشرة ومتأكد منها على حسابين."},
+   out:"النتيجة",time:"وقت التدريب",orig:"الأصلي (بدون سرعة)",used:"الوقت المستخدم من التسريع",left:"المتبقي من التسريع",troops:"عدد الجنود الممكن",gems:"الإنهاء الفوري بالجواهر",
+   bread:"الخبز",wood:"خشب",stone:"الحجر",iron:"حديد",own:"مواردي (اختياري)",ownHint:"اكتب ما تملكه ليظهر لك الناقص.",
+   empty:"اكتب عدد الجنود أو التسريع لتظهر النتيجة.",src:"كل الأرقام مأخوذة من اللعبة مباشرة ومتأكد منها على حسابين."},
   langBtn:"EN",langLabel:"English"},
  en:{dir:"ltr",title:"Hero Gear Calculator",
   bag:"Backpack",bagHint:"Enter what you own in the game. The calculator compares it with what you need and shows what is missing.",
@@ -489,7 +489,7 @@ var I18N={
   stNow:"Current",stAfter:"After",stGain:"Increase",secGear:"Hero Gear",secTroops:"Troop Training",
   tr:{mode:"Mode",train:"Train",promo:"Promote",type:"Troop type",tier:"Tier",from:"From tier",to:"To tier",
    promoHint:"The game always promotes troops to your highest unlocked tier.",
-   by:"Calculate by",byN:"Troop count",byT:"Speedups",n:"Troop count",d:"Days",h:"Hours",m:"Minutes",
+   by:"Calculate by",byN:"Troop count",byT:"Speedups",n:"Troop count",spNote:"Total of the Troop Training Speedups and General Speedups you own.",d:"Days",h:"Hours",m:"Minutes",
    speed:"Training Speed %",where:"Where do I find it?",
    w1:"Tap your power number at the top of the game screen.",w2:"The Bonus Overview opens. Scroll down to the Military section.",w3:"Copy the number next to Training Speed and enter it here.",
    wPower:"Power",wTitle:"Bonus Overview",wMil:"Military",wCap:"Training Capacity",wSpd:"Training Speed",wEx:"Illustration",
@@ -1197,7 +1197,7 @@ function renderTroops(){
   }else h+='<div class="tr-lab">'+L.tier+'</div>'+trPick("to",tiers.map(function(i){return [i,"T"+i];}),t.to,"t");
   h+='</div><div class="grp"><div class="tr-lab">'+L.by+'</div>'+trPick("by",[["n",L.byN],["t",L.byT]],t.by)+'<div style="height:8px"></div>';
   h+=t.by==="n"?'<div class="tr-one">'+trInput("n",t.n)+'</div>':
-    '<div class="tr-in"><label>'+trInput("d",t.d)+L.d+'</label><label>'+trInput("h",t.h)+L.h+'</label><label>'+trInput("m",t.m)+L.m+'</label></div>';
+    '<div class="tr-in"><label>'+trInput("d",t.d)+L.d+'</label><label>'+trInput("h",t.h)+L.h+'</label><label>'+trInput("m",t.m)+L.m+'</label></div>'+'<p class="hint" style="margin:6px 0 0">'+L.spNote+'</p>';
   h+='</div><div class="grp"><div class="tr-lab">'+L.speed+'<button type="button" id="tr-where">'+L.where+'</button></div>'+
     (trWhere?trWhereHTML():'')+'<div class="tr-one">'+trInput("speed",t.speed,1)+'</div>'+
     '<div class="tr-lab">'+L.buffs+'</div>'+
