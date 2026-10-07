@@ -1187,7 +1187,7 @@ function renderTroops(){
     '<div class="tr-in"><label>'+trInput("d",t.d)+L.d+'</label><label>'+trInput("h",t.h)+L.h+'</label><label>'+trInput("m",t.m)+L.m+'</label></div>';
   h+='</div><div class="grp"><div class="tr-lab">'+L.speed+'<button type="button" id="tr-where">'+L.where+'</button></div>'+
     (trWhere?trWhereHTML():'')+'<div class="tr-one">'+trInput("speed",t.speed,1)+'</div>'+
-    '<div class="tr-lab">'+L.buffs+'</div>
+    '<div class="tr-lab">'+L.buffs+'</div>'+
     trPick("pos",[["none",L.none],["cm",L.cm+' <small class="num">'+(t.hk?15:10)+'%</small>'],["na",L.na+' <small class="num">'+(t.hk?75:50)+'%</small>']],t.pos,"pos")+
     '<div style="height:4px"></div>'+
     '<button type="button" class="chk" data-chk="hk" aria-pressed="'+t.hk+'" style="border-top:0"><i>✓</i><span>'+L.hk+'</span><b style="font-weight:500;font-size:12.5px">'+L.hkSub+'</b></button>'+
