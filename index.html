@@ -289,14 +289,6 @@ label.rb:focus-within{border-color:var(--teal)}.how-pw .ti{width:22px;height:22p
 .how-box .rw.hit{color:var(--ink);font-weight:700;outline:3px solid var(--red);outline-offset:-3px;border-radius:8px}
 .res i.dot{display:inline-block}
 
-.row2{align-items:stretch}
-.row2 .tot{flex:1;align-items:center;grid-template-columns:1.45fr 1fr .9fr .9fr;gap:1px}
-.row2 .tot b{flex-direction:row;gap:2px;font-size:11.5px;align-items:center;justify-content:center}
-.row2 .tot .rt.sm{width:14px;height:14px;border-radius:4px}.row2 .hidebar{width:30px;height:auto}
-.row2 .tot small{font-size:9.5px}.row2{gap:4px}
-.bottom:not(.min) .row2 .more{flex:none;width:64px;border-radius:9px;height:auto;min-height:40px;font-size:12px;line-height:1.15;white-space:normal;padding:2px 4px}
-.bottom:not(.min) .row2 .more svg{display:none}
-.bottom.min .row2 .tot{display:none}
 .home .lp{width:min(100%,340px);gap:10px}
 .home .lp button{display:flex;align-items:center;gap:12px;padding:10px 12px;font-size:16px;text-align:start}
 .home .lp button[aria-pressed="true"]{border-color:var(--gold)}
@@ -383,7 +375,8 @@ label.rb:focus-within{border-color:var(--teal)}.how-pw .ti{width:22px;height:22p
 <footer class="bottom">
   <div class="row1"><div class="seg" id="scope"></div>
     <button class="ibtn" id="gear"><svg viewBox="0 0 20 20" fill="currentColor" width="19" height="19"><path d="M11.300 1.500l.400 2.100c.500.200 1 .500 1.500.800l2-.700 1.300 2.300-1.600 1.400a6 6 0 0 1 0 1.700l1.600 1.400-1.300 2.300-2-.700c-.500.300-1 .600-1.500.800l-.400 2.100H8.700l-.400-2.100c-.500-.200-1-.500-1.500-.800l-2 .700-1.300-2.300 1.600-1.400a6 6 0 0 1 0-1.700L3.500 6l1.300-2.300 2 .700c.500-.300 1-.600 1.500-.800l.400-2.100zM10 7.200a2.800 2.800 0 1 0 0 5.600 2.800 2.800 0 0 0 0-5.600z"/></svg></button></div>
-  <div class="row2"><div class="tot" id="tot"></div><button class="more" id="open"><span id="more"></span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12.500 4.500L7 10l5.500 5.500"/></svg></button>
+  <div class="tot" id="tot"></div>
+  <div class="row2"><button class="more" id="open"><span id="more"></span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12.500 4.500L7 10l5.500 5.500"/></svg></button>
     <button class="hidebar" id="hidebar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.500 7.500L10 13l5.500-5.500"/></svg></button></div>
 </footer>
 
@@ -849,7 +842,7 @@ function render(){
   var hv=have(),bs=bagSet();
   [].forEach.call(tot.children,function(d){var r=d.dataset.r,sm=d.querySelector("small"),lack=sum[r]-hv[r];
     d.querySelector("span").textContent=fmt(sum[r]);
-    if(bs&&sum[r]>0){sm.innerHTML=lack>0?'<span dir="ltr">−'+fmt(lack)+'</span>':T.enough;sm.className=lack>0?"lack":"okk";}
+    if(bs&&sum[r]>0){sm.textContent=lack>0?T.short(fmt(lack)):T.enough;sm.className=lack>0?"lack":"okk";}
     else{sm.textContent=T.res[r];sm.className="";}});
   if(!bagsheet.hidden)renderBag();
   ["scope","scope2","scope3"].forEach(function(id){[].forEach.call($(id).children,function(b){b.setAttribute("aria-pressed",b.dataset.s===S.scope);});});
