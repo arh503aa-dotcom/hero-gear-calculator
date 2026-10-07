@@ -1227,9 +1227,7 @@ function trOut(){
   if(!o.n){el.innerHTML='<div class="tr-empty">'+L.empty+'</div>';return;}
   var h='<div class="res">',r="";
   if(t.by==="t")h+='<div class="wide"><span>'+L.troops+'</span><b class="num">'+fmt(o.n)+'</b></div>';
-  var sub2=[];if(t.by==="t")sub2.push(L.left+': <span class="num" dir="ltr">'+fmtT(o.secs-o.act)+'</span>');
-  if(o.base!==o.act)sub2.push(L.orig+': <span class="num" dir="ltr">'+fmtT(o.base)+'</span>');
-  h+='<div class="wide"><span>'+(t.by==="t"?L.used:L.time)+'</span><b class="num" dir="ltr" style="text-align:start">'+fmtT(o.act)+'</b>'+(sub2.length?'<small>'+sub2.join(" · ")+'</small>':'')+'</div>';
+  if(t.by!=="t")h+='<div class="wide"><span>'+L.time+'</span><b class="num" dir="ltr" style="text-align:start">'+fmtT(o.act)+'</b>'+(o.base!==o.act?'<small>'+L.orig+': <span class="num" dir="ltr">'+fmtT(o.base)+'</span></small>':'')+'</div>';
   TRK.forEach(function(k){var own=t.own[k],lack=o[k]-own,sub=own?(lack>0?'<small class="lack">'+T.short(fmt(lack))+'</small>':'<small class="okk">'+T.enough+'</small>'):'';
     r+='<div class="rb">'+ti(k)+'<div><b class="num">'+fmt(o[k])+'</b><small>'+L[k]+'</small>'+sub+'</div></div>';});
   h+='</div><div class="grp"><h3 style="margin-bottom:8px">'+T.need+'</h3><div class="rbs">'+r+
