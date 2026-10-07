@@ -253,13 +253,16 @@ button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .tr-total b{font-size:20px;color:var(--teal)}
 .res b.mid{font-size:21px}
 .ti{width:24px;height:24px;flex:none;display:inline-block;font-style:normal}.ti svg{width:100% !important;height:100% !important;display:block}
-.own .ti{width:40px;height:40px}
-.own{display:grid;grid-template-columns:1fr 1fr;gap:10px 8px}
-.own label{display:flex;align-items:center;gap:8px;min-width:0}
-.own label>span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;text-align:start}
-.own small{font-size:12.5px;color:var(--muted);font-weight:700}
-.own input{width:100%;height:38px;border-radius:9px;border:1.5px solid var(--line);background:var(--field);color:var(--ink);font:700 16px "Changa","Tajawal",Tahoma,sans-serif;text-align:center;padding:0 4px;direction:ltr}
-.own input:focus{outline:none;border-color:var(--teal)}.how-pw .ti{width:22px;height:22px}
+.rbs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rb{display:flex;align-items:center;gap:9px;background:var(--field);border:1px solid var(--line);border-radius:10px;padding:7px 9px;min-width:0;min-height:48px}
+.rb.wide{grid-column:1/-1}
+.rb .ti{width:30px;height:30px;display:block}
+.rb>div{flex:1;display:flex;flex-direction:column;justify-content:center;line-height:1.15;min-width:0;text-align:start}
+.rb b{font-size:16px;font-weight:700}
+.rb small{font-size:11.5px;color:var(--muted)}
+.rb small.lack{color:var(--red);font-weight:700}.rb small.okk{color:var(--teal);font-weight:700}
+.rb input{width:100%;height:20px;border:0;background:none;color:var(--ink);font:700 16px "Changa","Tajawal",Tahoma,sans-serif;padding:0;text-align:start;outline:none}
+label.rb:focus-within{border-color:var(--teal)}.how-pw .ti{width:22px;height:22px}
 .how{background:var(--field);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:13.5px}
 .how ol{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:8px}
 .how small{color:var(--muted);font-size:11.5px}
@@ -1204,8 +1207,8 @@ function renderTroops(){
     trChk("mob",L.mob,30,t.mob)+trChk("kvk",L.kvk,25,t.kvk,t.hk)+
     '<div class="tr-total"><span>'+L.total+'</span><b class="num" dir="ltr" id="tr-speed"></b></div></div>'+
     '<div id="tr-out" style="display:contents"></div>'+
-    '<div class="grp"><h3>'+L.own+'</h3><p class="hint">'+L.ownHint+'</p><div class="own">'+TRK.map(function(k){
-      return '<label>'+ti(k)+'<span><small>'+L[k]+'</small>'+trInput("own."+k,t.own[k])+'</span></label>';}).join("")+'</div></div>'+
+    '<div class="grp"><h3>'+L.own+'</h3><p class="hint">'+L.ownHint+'</p><div class="rbs">'+TRK.map(function(k){
+      return '<label class="rb">'+ti(k)+'<div>'+trInput("own."+k,t.own[k])+'<small>'+L[k]+'</small></div></label>';}).join("")+'</div></div>'+
     creditHTML();
   body.innerHTML=h;body.scrollTop=y;trOut();
 }
@@ -1213,12 +1216,13 @@ function trOut(){
   var t=S.tr,L=T.tr,o=trCalc(),el=$("tr-out");if(!el)return;
   $("tr-speed").textContent=o.speed+"%";
   if(!o.n){el.innerHTML='<div class="grp"><p class="hint" style="margin:0">'+L.empty+'</p></div>';return;}
-  var h='<div class="res">';
+  var h='<div class="res">',r="";
   if(t.by==="t")h+='<div class="wide"><span>'+L.troops+'</span><b class="num">'+fmt(o.n)+'</b></div>';
   h+='<div class="wide"><span>'+L.time+'</span><b class="num" dir="ltr" style="text-align:start">'+fmtT(o.act)+'</b><small>'+L.orig+': <span class="num" dir="ltr">'+fmtT(o.base)+'</span></small></div>';
   TRK.forEach(function(k){var own=t.own[k],lack=o[k]-own,sub=own?(lack>0?'<small class="lack">'+T.short(fmt(lack))+'</small>':'<small class="okk">'+T.enough+'</small>'):'';
-    h+='<div><span>'+ti(k)+L[k]+'</span><b class="num mid">'+fmt(o[k])+'</b>'+sub+'</div>';});
-  h+='<div class="wide"><span>'+ti("gem")+L.gems+'</span><b class="num mid">'+fmt(o.gems)+'</b></div></div>';
+    r+='<div class="rb">'+ti(k)+'<div><b class="num">'+fmt(o[k])+'</b><small>'+L[k]+'</small>'+sub+'</div></div>';});
+  h+='</div><div class="grp"><h3 style="margin-bottom:8px">'+T.need+'</h3><div class="rbs">'+r+
+    '<div class="rb wide">'+ti("gem")+'<div><b class="num">'+fmt(o.gems)+'</b><small>'+L.gems+'</small></div></div></div></div>';
   el.innerHTML=h;
 }
 function applyView(){
