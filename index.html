@@ -485,7 +485,7 @@ var I18N={
    buffs:"البوفات",buffHint:"النسبة اللي في اللعبة فيها البوفات المفعّلة عندك الآن. شغّل هنا فقط البوف اللي ما فعّلته بعد.",
    pos:"المنصب",none:"بدون",cm:"رئيس الوزراء",na:"مستشار نبيل",hk:"علاوة الملك الأعظم",hkSub:"ترفع قيمة المنصب",
    mob:"التعبئة",kvk:"علاوة مملكة القوة",total:"إجمالي السرعة",
-   out:"النتيجة",time:"وقت التدريب",orig:"الأصلي (بدون سرعة)",used:"الوقت المستخدم من التسريع",left:"المتبقي من التسريع",troops:"عدد الجنود الممكن",gems:"إنهاء فوري",power:"القوة",tg:"الذهب الخالص للثكنة",kvPts:"نقاط مملكة القوة (يوم 4)",spPts:"نقاط التسريع (يوم 1 و 2)",ptsHint:"في مملكة القوة تنحسب نقاط تدريب الجنود في اليوم الرابع، ونقاط تسريع التدريب (30 لكل دقيقة) في يوم 1 و 2، فما ينجمعون.",
+   out:"النتيجة",time:"وقت التدريب",orig:"الأصلي (بدون سرعة)",used:"الوقت المستخدم من التسريع",left:"المتبقي من التسريع",troops:"عدد الجنود الممكن",gems:"إنهاء فوري",power:"القوة",tg:"الذهب الخالص للثكنة",kvPts:"نقاط مملكة القوة",spPts:"نقاط التسريع",
    bread:"الخبز",wood:"خشب",stone:"الحجر",iron:"حديد",own:"مواردي (اختياري)",ownHint:"اكتب ما تملكه ليظهر لك الناقص.",
    empty:"اكتب عدد الجنود أو التسريع ليظهر المطلوب.",src:"كل الأرقام مأخوذة من اللعبة مباشرة ومتأكد منها على حسابين."},
   langBtn:"EN",langLabel:"English"},
@@ -533,7 +533,7 @@ var I18N={
    buffs:"Buffs",buffHint:"The speed shown in game already includes your active buffs. Only tick a buff here if it is not active yet.",
    pos:"Position",none:"None",cm:"Chief Minister",na:"Noble Advisor",hk:"High King Bonus",hkSub:"upgrades the position value",
    mob:"Mobilize",kvk:"Kingdom of Power Bonus",total:"Total speed",
-   out:"Result",time:"Training time",orig:"Original (no speed)",used:"Speedup time used",left:"Speedups left over",troops:"Soldiers you can train",gems:"Instant finish",power:"Power",tg:"Barracks Truegold",kvPts:"Kingdom of Power points (Day 4)",spPts:"Speedup points (Day 1 & 2)",ptsHint:"In Kingdom of Power, training soldiers scores on Day 4 and training speedups (30 per minute) score on Day 1 & 2, so the two never add up.",
+   out:"Result",time:"Training time",orig:"Original (no speed)",used:"Speedup time used",left:"Speedups left over",troops:"Soldiers you can train",gems:"Instant finish",power:"Power",tg:"Barracks Truegold",kvPts:"Kingdom of Power points",spPts:"Speedup points",
    bread:"Bread",wood:"Wood",stone:"Stone",iron:"Iron",own:"My resources (optional)",ownHint:"Enter what you own to see what is missing.",
    empty:"Enter a soldier count or your speedups to see what is needed.",src:"All numbers were taken directly from the game and checked on two accounts."},
   langBtn:"ع",langLabel:"العربية"}
@@ -1274,7 +1274,7 @@ function trOut(){
     '<div class="rb">'+ti("power")+'<div><b class="num" dir="ltr">+'+fmt(o.power)+'</b><small>'+L.power+'</small></div></div>'+
     '<div class="rb pts"><div><b class="num">'+fmt(o.kv)+'</b><small>'+L.kvPts+'</small></div></div>'+
     '<div class="rb pts"><div><b class="num">'+fmt(o.spp)+'</b><small>'+L.spPts+'</small></div></div></div>'+
-    '<p class="hint" style="margin:6px 0 0">'+L.ptsHint+'</p>'+
+
     '<button type="button" class="wide-btn" id="tr-shot" style="width:100%;margin-top:8px">'+IC_CAM+'<span>'+T.shot+'</span></button></div>';
   el.innerHTML=h;
 }
