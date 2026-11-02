@@ -346,7 +346,9 @@ html[dir="rtl"] .rb b[dir="ltr"]{text-align:right}
 .swstrip button{flex:1;display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-weight:700;font-size:13.5px;text-align:start;min-width:0}
 .swstrip button[aria-pressed="true"]{border-color:var(--gold);background:var(--field)}
 .swstrip .ti{width:32px;height:32px;border-radius:9px;overflow:hidden;flex:none;box-sizing:border-box}.swstrip .ti.gearbg{background:linear-gradient(#F3B75C,#C9781F);border:2px solid #8E5210}
-.swstrip span{line-height:1.2}
+.swstrip span{line-height:1.2;white-space:nowrap}
+.swstrip button{gap:6px;padding:6px}
+.swstrip .swhome{flex:none;flex-direction:column;gap:1px;justify-content:center;padding:4px 8px;font-size:11px;color:var(--muted)}
 /* ---------- full summary ---------- */
 .sheet{position:fixed;inset:0;z-index:5;background:var(--bg);display:flex;flex-direction:column;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -489,7 +491,7 @@ var I18N={
   canAll:"اللي عندك يكفي لكل هذي التطويرات ✓",cantAll:"اللي عندك ما يكفي. الناقص:",noNeed:"ما حددت تطويرات لهذا الاختيار بعد.",
   backup:"نسخة احتياطية",backupHint:"انسخ رابط الحفظ واحتفظ به في الملاحظات أو المفضلة. لو اختفت تطويراتك افتحه وترجع كلها، حتى من جهاز ثاني.",
   copy:"انسخ رابط الحفظ",copied:"تم النسخ ✓",restorePh:"ألصق رابط الحفظ هنا",restore:"استرجاع",restored:"تم الاسترجاع ✓",badCode:"الرابط غير صحيح",
-  themeL:"الوضع النهاري",themeD:"الوضع الليلي",mLook:"المظهر",mDark:"ليلي",mLight:"نهاري",swGear:"عتاد الأبطال",swTr:"تدريب الجنود",
+  themeL:"الوضع النهاري",themeD:"الوضع الليلي",mLook:"المظهر",mDark:"ليلي",mLight:"نهاري",swGear:"عتاد الأبطال",swTr:"تدريب الجنود",swHome:"الرئيسية",
   all4:"الهدف للأربع",applied:function(n){return "تم تطبيق هدف "+n+" على القطع الأربع";},undo:"تراجع",
   reachT:"لوين توصل بحقيبتك؟",reachHint:"كل قطعة محسوبة لحالها، كأنك صرفت الحقيبة كلها عليها.",
   needMas:function(n){return "مع رفع الصقل إلى "+n;},stopBy:"يوقفك: ",maxed:"واصلة الحد الأقصى 200",
@@ -536,7 +538,7 @@ var I18N={
   canAll:"You have enough for all of these upgrades ✓",cantAll:"Not enough yet. Missing:",noNeed:"No upgrades set for this selection yet.",
   backup:"Backup",backupHint:"Copy the save link and keep it in your notes or bookmarks. If your upgrades ever disappear, open it to bring them all back, even on another device.",
   copy:"Copy save link",copied:"Copied ✓",restorePh:"Paste a save link here",restore:"Restore",restored:"Restored ✓",badCode:"That link is not valid",
-  themeL:"Light mode",themeD:"Dark mode",mLook:"Appearance",mDark:"Dark",mLight:"Light",swGear:"Hero Gear",swTr:"Troop Training",
+  themeL:"Light mode",themeD:"Dark mode",mLook:"Appearance",mDark:"Dark",mLight:"Light",swGear:"Hero Gear",swTr:"Troop Training",swHome:"Home",
   all4:"Target ×4",applied:function(n){return "Applied the "+n+" target to all four pieces";},undo:"Undo",
   reachT:"How far can your backpack take you?",reachHint:"Each piece is worked out on its own, as if you spent the whole backpack on it.",
   needMas:function(n){return "with Mastery raised to "+n;},stopBy:"Stops at: ",maxed:"Already at the max, 200",
@@ -1365,7 +1367,7 @@ function applyView(){
   var arw='<svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   $("home-btns").innerHTML='<button type="button" data-v="gear" class="gold"><i class="ti gearbg">'+nsvg("inf-helm")+'</i><span class="tx"><b>'+T.title+'</b><small>'+T.homeGearD+'</small></span><span class="go">'+arw+'</span></button>'+
     '<button type="button" data-v="troops" class="dark">'+ti("t_inf")+'<span class="tx"><b>'+T.secTroops+'</b><small>'+T.homeTrD+'</small></span><span class="go">'+arw+'</span></button>';
-  $("swstrip").innerHTML='<button type="button" data-v="gear" aria-pressed="'+!tr+'"><i class="ti gearbg">'+nsvg("inf-helm")+'</i><span>'+T.swGear+'</span></button><button type="button" data-v="troops" aria-pressed="'+tr+'">'+ti("t_inf")+'<span>'+T.swTr+'</span></button>';
+  $("swstrip").innerHTML='<button type="button" data-v="gear" aria-pressed="'+!tr+'"><i class="ti gearbg">'+nsvg("inf-helm")+'</i><span>'+T.swGear+'</span></button><button type="button" data-v="troops" aria-pressed="'+tr+'">'+ti("t_inf")+'<span>'+T.swTr+'</span></button><button type="button" data-v="home" class="swhome" aria-label="'+T.swHome+'"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg><span>'+T.swHome+'</span></button>';
   $("home-title").textContent=T.homeTitle;$("home-sub").textContent=T.homeSub;$("home-soon").textContent=T.homeSoon;$("home-ll").textContent=T.homeLang;
   $("home-ft").innerHTML=T.credit+' <b dir="ltr">Aa10 · K1773</b>';
   [].forEach.call(document.querySelectorAll("#home-lang button"),function(b){b.setAttribute("aria-pressed",b.dataset.l===S.lang);});
@@ -1375,7 +1377,7 @@ document.addEventListener("click",function(e){
   var b=e.target.closest("[data-sect] button");
   if(b){S.view=b.dataset.v;S.homeSeen=true;$("home").hidden=true;saveLocal();applyView();if(S.view==="gear"){measure();alignLabels();}return;}
   var swb=e.target.closest("[data-sw]");if(swb){var st=$("swstrip");menu.hidden=true;st.hidden=!st.hidden;if(!st.hidden)st.style.top=swb.closest(".top").getBoundingClientRect().bottom+"px";return;}
-  var ss=e.target.closest("#swstrip button");if(ss){$("swstrip").hidden=true;if(ss.dataset.v!==S.view){S.view=ss.dataset.v;saveLocal();applyView();if(S.view==="gear"){measure();alignLabels();}}return;}
+  var ss=e.target.closest("#swstrip button");if(ss){$("swstrip").hidden=true;if(ss.dataset.v==="home"){$("home").hidden=false;return;}if(ss.dataset.v!==S.view){S.view=ss.dataset.v;saveLocal();applyView();if(S.view==="gear"){measure();alignLabels();}}return;}
   if(!$("swstrip").hidden&&!e.target.closest("#swstrip"))$("swstrip").hidden=true;
   var hl=e.target.closest("#home-lang button");if(hl){S.lang=hl.dataset.l;S.langSet=true;saveLocal();build();return;}
   if(e.target.closest("#tr-shot")){makeShot(drawTrShot);return;}
