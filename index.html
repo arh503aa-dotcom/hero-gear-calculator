@@ -335,6 +335,18 @@ label.rb:focus-within{border-color:var(--teal)}.how-pw .ti{width:22px;height:22p
 .hp-ft{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);text-align:center;font-size:12.5px;opacity:.75}
 .hp-ft b{font-family:"Changa",sans-serif}
 html[dir="rtl"] .rb b[dir="ltr"]{text-align:right}
+.menu{bottom:auto;top:0;min-width:260px;padding:8px}
+.menu .mlbl{margin:4px 6px 4px;font-size:12px;color:var(--muted);font-weight:500}
+.menu .mtg{display:flex;gap:6px}
+.menu .mtg button{flex:1;justify-content:center;gap:7px;height:42px;padding:0 8px;border:1.5px solid var(--line);border-radius:10px;font-size:14px}
+.menu .mtg button[aria-pressed="true"]{border-color:var(--gold);background:var(--field)}
+.menu .flag{display:block;width:27px;height:18px;border-radius:3px;overflow:hidden;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.15)}.menu .flag svg{display:block;width:100%;height:100%}
+.menu .mtg span{position:relative;top:1px}
+.swstrip{position:fixed;left:0;right:0;z-index:6;display:flex;gap:8px;padding:8px 10px;background:var(--bar);border-bottom:1px solid var(--line);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.swstrip button{flex:1;display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-weight:700;font-size:13.5px;text-align:start;min-width:0}
+.swstrip button[aria-pressed="true"]{border-color:var(--gold);background:var(--field)}
+.swstrip .ti{width:32px;height:32px;border-radius:9px;overflow:hidden;flex:none;box-sizing:border-box}.swstrip .ti.gearbg{background:linear-gradient(#F3B75C,#C9781F);border:2px solid #8E5210}
+.swstrip span{line-height:1.2}
 /* ---------- full summary ---------- */
 .sheet{position:fixed;inset:0;z-index:5;background:var(--bg);display:flex;flex-direction:column;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -418,7 +430,8 @@ html[dir="rtl"] .rb b[dir="ltr"]{text-align:right}
 </footer>
 
 <div class="menu scopepop" id="scope" hidden></div>
-<div class="menu" id="menu" hidden><button type="button" id="theme"></button><button type="button" id="lang"></button></div>
+<div class="menu" id="menu" hidden><p class="mlbl" id="m-langl"></p><div class="mtg"><button type="button" data-ml="ar"><i class="flag"><svg viewBox="0 0 30 20"><rect width="30" height="20" rx="2.5" fill="#0B7A3E"/><path d="M8 7.2q1.2-1.6 2.4 0t2.4 0 2.4 0 2.4 0 2.4 0 2.4 0" fill="none" stroke="#fff" stroke-width="1.1" stroke-linecap="round"/><path d="M8.6 10q1.6-1.2 3.2 0t3.2 0 3.2 0 3.2 0" fill="none" stroke="#fff" stroke-width="1" stroke-linecap="round"/><path d="M7.5 14H22l1.2-.7-1.2-.6H7.5z" fill="#fff"/><rect x="8.2" y="12.6" width="1" height="2.4" fill="#fff"/></svg></i><span>العربية</span></button><button type="button" data-ml="en" dir="ltr"><i class="flag"><svg viewBox="0 0 30 20"><clipPath id="usclip2"><rect width="30" height="20" rx="2.5"/></clipPath><g clip-path="url(#usclip2)"><rect width="30" height="20" fill="#fff"/><rect y="0.000" width="30" height="1.538" fill="#B22234"/><rect y="3.077" width="30" height="1.538" fill="#B22234"/><rect y="6.154" width="30" height="1.538" fill="#B22234"/><rect y="9.231" width="30" height="1.538" fill="#B22234"/><rect y="12.308" width="30" height="1.538" fill="#B22234"/><rect y="15.385" width="30" height="1.538" fill="#B22234"/><rect y="18.462" width="30" height="1.538" fill="#B22234"/><rect width="13" height="10.77" fill="#3C3B6E"/><circle cx="1.40" cy="1.30" r=".45" fill="#fff"/><circle cx="3.45" cy="1.30" r=".45" fill="#fff"/><circle cx="5.50" cy="1.30" r=".45" fill="#fff"/><circle cx="7.55" cy="1.30" r=".45" fill="#fff"/><circle cx="9.60" cy="1.30" r=".45" fill="#fff"/><circle cx="11.65" cy="1.30" r=".45" fill="#fff"/><circle cx="1.40" cy="3.35" r=".45" fill="#fff"/><circle cx="3.45" cy="3.35" r=".45" fill="#fff"/><circle cx="5.50" cy="3.35" r=".45" fill="#fff"/><circle cx="7.55" cy="3.35" r=".45" fill="#fff"/><circle cx="9.60" cy="3.35" r=".45" fill="#fff"/><circle cx="11.65" cy="3.35" r=".45" fill="#fff"/><circle cx="1.40" cy="5.40" r=".45" fill="#fff"/><circle cx="3.45" cy="5.40" r=".45" fill="#fff"/><circle cx="5.50" cy="5.40" r=".45" fill="#fff"/><circle cx="7.55" cy="5.40" r=".45" fill="#fff"/><circle cx="9.60" cy="5.40" r=".45" fill="#fff"/><circle cx="11.65" cy="5.40" r=".45" fill="#fff"/><circle cx="1.40" cy="7.45" r=".45" fill="#fff"/><circle cx="3.45" cy="7.45" r=".45" fill="#fff"/><circle cx="5.50" cy="7.45" r=".45" fill="#fff"/><circle cx="7.55" cy="7.45" r=".45" fill="#fff"/><circle cx="9.60" cy="7.45" r=".45" fill="#fff"/><circle cx="11.65" cy="7.45" r=".45" fill="#fff"/><circle cx="1.40" cy="9.50" r=".45" fill="#fff"/><circle cx="3.45" cy="9.50" r=".45" fill="#fff"/><circle cx="5.50" cy="9.50" r=".45" fill="#fff"/><circle cx="7.55" cy="9.50" r=".45" fill="#fff"/><circle cx="9.60" cy="9.50" r=".45" fill="#fff"/><circle cx="11.65" cy="9.50" r=".45" fill="#fff"/></g></svg></i><span>English</span></button></div><p class="mlbl" id="m-thl"></p><div class="mtg"><button type="button" data-mt="dark" id="m-dark"></button><button type="button" data-mt="light" id="m-light"></button></div></div>
+<div class="swstrip" id="swstrip" hidden></div>
 
 <section class="sheet" id="trsheet" hidden>
   <header class="top"><button class="ibtn sw" data-sw aria-haspopup="true"><svg viewBox="0 0 20 20" fill="currentColor"><rect x="2" y="2" width="7" height="7" rx="2"/><rect x="11" y="2" width="7" height="7" rx="2"/><rect x="2" y="11" width="7" height="7" rx="2"/><rect x="11" y="11" width="7" height="7" rx="2"/></svg></button><div class="seg" role="tablist" id="tr-tabs"></div><button class="ibtn txt" id="tr-bag"></button><button class="ibtn" id="gear2"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 5.500h14M3 10h14M3 14.500h14"/></svg></button></header>
@@ -476,7 +489,7 @@ var I18N={
   canAll:"اللي عندك يكفي لكل هذي التطويرات ✓",cantAll:"اللي عندك ما يكفي. الناقص:",noNeed:"ما حددت تطويرات لهذا الاختيار بعد.",
   backup:"نسخة احتياطية",backupHint:"انسخ رابط الحفظ واحتفظ به في الملاحظات أو المفضلة. لو اختفت تطويراتك افتحه وترجع كلها، حتى من جهاز ثاني.",
   copy:"انسخ رابط الحفظ",copied:"تم النسخ ✓",restorePh:"ألصق رابط الحفظ هنا",restore:"استرجاع",restored:"تم الاسترجاع ✓",badCode:"الرابط غير صحيح",
-  themeL:"الوضع النهاري",themeD:"الوضع الليلي",
+  themeL:"الوضع النهاري",themeD:"الوضع الليلي",mLook:"المظهر",mDark:"ليلي",mLight:"نهاري",swGear:"عتاد الأبطال",swTr:"تدريب الجنود",
   all4:"الهدف للأربع",applied:function(n){return "تم تطبيق هدف "+n+" على القطع الأربع";},undo:"تراجع",
   reachT:"لوين توصل بحقيبتك؟",reachHint:"كل قطعة محسوبة لحالها، كأنك صرفت الحقيبة كلها عليها.",
   needMas:function(n){return "مع رفع الصقل إلى "+n;},stopBy:"يوقفك: ",maxed:"واصلة الحد الأقصى 200",
@@ -523,7 +536,7 @@ var I18N={
   canAll:"You have enough for all of these upgrades ✓",cantAll:"Not enough yet. Missing:",noNeed:"No upgrades set for this selection yet.",
   backup:"Backup",backupHint:"Copy the save link and keep it in your notes or bookmarks. If your upgrades ever disappear, open it to bring them all back, even on another device.",
   copy:"Copy save link",copied:"Copied ✓",restorePh:"Paste a save link here",restore:"Restore",restored:"Restored ✓",badCode:"That link is not valid",
-  themeL:"Light mode",themeD:"Dark mode",
+  themeL:"Light mode",themeD:"Dark mode",mLook:"Appearance",mDark:"Dark",mLight:"Light",swGear:"Hero Gear",swTr:"Troop Training",
   all4:"Target ×4",applied:function(n){return "Applied the "+n+" target to all four pieces";},undo:"Undo",
   reachT:"How far can your backpack take you?",reachHint:"Each piece is worked out on its own, as if you spent the whole backpack on it.",
   needMas:function(n){return "with Mastery raised to "+n;},stopBy:"Stops at: ",maxed:"Already at the max, 200",
@@ -794,7 +807,7 @@ var IC_MOON='<svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"
 function isDark(){return S.theme!=="light";}
 function applyTheme(){
   document.documentElement.setAttribute("data-theme",isDark()?"dark":"light");
-  var d=isDark();$("theme").innerHTML=(d?IC_SUN:IC_MOON)+"<span>"+(d?T.themeL:T.themeD)+"</span>";
+  var d=isDark();$("m-dark").setAttribute("aria-pressed",d);$("m-light").setAttribute("aria-pressed",!d);
 }
 var ACT={};SLOTS.forEach(function(p){ACT[p]={enh:"et",mas:"mt"};});
 var ROW={ec:"enh",et:"enh",mc:"mas",mt:"mas"};
@@ -841,7 +854,8 @@ function build(){
   tot.innerHTML=RES.map(function(r){return '<div data-r="'+r+'"><b class="num">'+tile(r,1)+'<span></span></b><small>'+T.res[r]+'</small></div>';}).join("");
   $("more").textContent=T.details;$("sh-title").textContent=T.sheet;
   [].forEach.call(document.querySelectorAll("[data-close]"),function(b){b.setAttribute("aria-label",T.close);});
-  $("lang").innerHTML='<b class="num" style="width:19px;text-align:center">'+T.langBtn+'</b><span>'+T.langLabel+'</span>';
+  $("m-langl").textContent=T.homeLang;$("m-thl").textContent=T.mLook;$("m-dark").innerHTML=IC_MOON+"<span>"+T.mDark+"</span>";$("m-light").innerHTML=IC_SUN+"<span>"+T.mLight+"</span>";
+  [].forEach.call(document.querySelectorAll("#menu [data-ml]"),function(b){b.setAttribute("aria-pressed",b.dataset.ml===S.lang);});
   $("bk").innerHTML=IC_BK+"<span>"+T.bk+"</span>";$("bk-title").textContent=T.bkTitle;$("gear").setAttribute("aria-label",T.settings);
   $("shotsave").textContent=T.shotSave;$("shotpdf").textContent=T.shotFile;$("shotclose").textContent=T.close;$("shothint").textContent=T.shotHint;
   applyBar();render();alignLabels();applyView();
@@ -1142,8 +1156,15 @@ function setVal(card,f,v){var g=gearOf(card);g[f]=v;fix(g,f);render();changed();
 tabs.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;S.troop=b.dataset.t;render();});
 function onScope(e){var b=e.target.closest("button");if(!b)return;S.scope=b.dataset.s;render();}
 ["scope","scope2","scope3"].forEach(function(id){$(id).addEventListener("click",onScope);});
-$("theme").addEventListener("click",function(){S.theme=isDark()?"light":"dark";applyTheme();saveLocal();menu.hidden=true;});
-$("gear").addEventListener("click",function(e){e.stopPropagation();menu.hidden=!menu.hidden;if(!menu.hidden)alignLabels();});
+function openMenu(btn){menu.hidden=!menu.hidden;if(menu.hidden)return;$("swstrip").hidden=true;
+  var r=btn.getBoundingClientRect(),h=menu.offsetHeight,vh=window.innerHeight,rtl=T.dir==="rtl";
+  menu.style.top=(r.top<vh/2?r.bottom+8:r.top-h-8)+"px";
+  if(rtl){menu.style.left=Math.max(8,r.left)+"px";menu.style.right="auto";}else{menu.style.right=Math.max(8,window.innerWidth-r.right)+"px";menu.style.left="auto";}
+  alignLabels();}
+menu.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
+  if(b.dataset.mt){S.theme=b.dataset.mt;applyTheme();saveLocal();menu.hidden=true;}
+  if(b.dataset.ml){S.lang=b.dataset.ml;S.langSet=true;menu.hidden=true;saveLocal();build();}});
+$("gear").addEventListener("click",function(e){e.stopPropagation();openMenu(this);});
 document.addEventListener("click",function(e){if(!menu.hidden&&!e.target.closest("#menu"))menu.hidden=true;});
 $("bk").addEventListener("click",function(){bksheet.hidden=false;renderBackup();});
 $("shotclose").addEventListener("click",function(){$("shotview").hidden=true;});
@@ -1157,14 +1178,14 @@ $("bag-in").addEventListener("input",function(e){
   if(inp.value!==v)inp.value=v;
   S.bag[inp.dataset.k]=v?parseInt(v,10):0;render();changed();
 });
-$("lang").addEventListener("click",function(){S.lang=S.lang==="ar"?"en":"ar";S.langSet=true;menu.hidden=true;build();});
+
 $("langpick").addEventListener("click",function(e){var b=e.target.closest("button");
   if(!b&&e.target.closest(".lp"))return;
   if(b)S.lang=b.dataset.l;S.langSet=true;$("langpick").hidden=true;build();if(!S.homeSeen)$("home").hidden=false;});
 
 $("open").addEventListener("click",function(){sheet.hidden=false;renderSheet();$("sh-body").scrollTop=0;});
 [].forEach.call(document.querySelectorAll("[data-close]"),function(b){b.addEventListener("click",function(){b.closest(".sheet").hidden=true;});});
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){sheet.hidden=true;bagsheet.hidden=true;bksheet.hidden=true;menu.hidden=true;$("shotview").hidden=true;}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){sheet.hidden=true;bagsheet.hidden=true;bksheet.hidden=true;menu.hidden=true;$("swstrip").hidden=true;$("shotview").hidden=true;}});
 
 $("bag-out").addEventListener("click",function(e){
   var b=e.target.closest(".go");if(!b)return;
@@ -1344,6 +1365,7 @@ function applyView(){
   var arw='<svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   $("home-btns").innerHTML='<button type="button" data-v="gear" class="gold"><i class="ti gearbg">'+nsvg("inf-helm")+'</i><span class="tx"><b>'+T.title+'</b><small>'+T.homeGearD+'</small></span><span class="go">'+arw+'</span></button>'+
     '<button type="button" data-v="troops" class="dark">'+ti("t_inf")+'<span class="tx"><b>'+T.secTroops+'</b><small>'+T.homeTrD+'</small></span><span class="go">'+arw+'</span></button>';
+  $("swstrip").innerHTML='<button type="button" data-v="gear" aria-pressed="'+!tr+'"><i class="ti gearbg">'+nsvg("inf-helm")+'</i><span>'+T.swGear+'</span></button><button type="button" data-v="troops" aria-pressed="'+tr+'">'+ti("t_inf")+'<span>'+T.swTr+'</span></button>';
   $("home-title").textContent=T.homeTitle;$("home-sub").textContent=T.homeSub;$("home-soon").textContent=T.homeSoon;$("home-ll").textContent=T.homeLang;
   $("home-ft").innerHTML=T.credit+' <b dir="ltr">Aa10 · K1773</b>';
   [].forEach.call(document.querySelectorAll("#home-lang button"),function(b){b.setAttribute("aria-pressed",b.dataset.l===S.lang);});
@@ -1352,7 +1374,9 @@ function applyView(){
 document.addEventListener("click",function(e){
   var b=e.target.closest("[data-sect] button");
   if(b){S.view=b.dataset.v;S.homeSeen=true;$("home").hidden=true;saveLocal();applyView();if(S.view==="gear"){measure();alignLabels();}return;}
-  if(e.target.closest("[data-sw]")){$("home").hidden=false;menu.hidden=true;return;}
+  var swb=e.target.closest("[data-sw]");if(swb){var st=$("swstrip");menu.hidden=true;st.hidden=!st.hidden;if(!st.hidden)st.style.top=swb.closest(".top").getBoundingClientRect().bottom+"px";return;}
+  var ss=e.target.closest("#swstrip button");if(ss){$("swstrip").hidden=true;if(ss.dataset.v!==S.view){S.view=ss.dataset.v;saveLocal();applyView();if(S.view==="gear"){measure();alignLabels();}}return;}
+  if(!$("swstrip").hidden&&!e.target.closest("#swstrip"))$("swstrip").hidden=true;
   var hl=e.target.closest("#home-lang button");if(hl){S.lang=hl.dataset.l;S.langSet=true;saveLocal();build();return;}
   if(e.target.closest("#tr-shot")){makeShot(drawTrShot);return;}
   if(e.target.closest("#tr-bag")){$("trbag").hidden=false;renderTrBag();return;}
@@ -1373,7 +1397,7 @@ document.addEventListener("input",function(e){
     var want=n?String(n):"";if(el.value!==want)el.value=want;}
   saveLocal();trOut();
 });
-$("gear2").addEventListener("click",function(e){e.stopPropagation();menu.hidden=!menu.hidden;if(!menu.hidden)alignLabels();});
+$("gear2").addEventListener("click",function(e){e.stopPropagation();openMenu(this);});
 $("scopebtn").addEventListener("click",function(e){e.stopPropagation();$("scope").hidden=!$("scope").hidden;menu.hidden=true;});
 document.addEventListener("click",function(){$("scope").hidden=true;});
 function fitMiles(){[].forEach.call(document.querySelectorAll(".mile span"),function(sp){sp.style.fontSize="";var f=parseFloat(getComputedStyle(sp).fontSize),n=0;
